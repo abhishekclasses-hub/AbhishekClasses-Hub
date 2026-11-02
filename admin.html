@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Study with Abhishek</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            500: '#16a34a',
+                            600: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Standard Web Compatibility SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        <!-- HEADER -->
+        <div class="flex items-center justify-between bg-gray-800 p-5 rounded-3xl border border-gray-700 shadow-xl">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center text-xl font-bold">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-white">Study with Abhishek</h1>
+                    <p class="text-xs text-amber-400">Admin Control Panel</p>
+                </div>
+            </div>
+            <a href="index.html" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-2xl text-xs font-semibold transition">
+                <i class="fas fa-arrow-left mr-1"></i> Go to App
+            </a>
+        </div>
+
+        <!-- GRID CONTROLS -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- 1. PUBLISH YOUTUBE LECTURE -->
+            <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
+                <div class="flex items-center space-x-2 text-amber-400">
+                    <i class="fas fa-video"></i>
+                    <h2 class="font-bold text-sm">Publish YouTube Lecture</h2>
+                </div>
+                <div class="space-y-3">
+                    <input type="text" id="adminVideoTitle" placeholder="Lecture Title (e.g. NORCET Day 6)" 
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <input type="text" id="adminVideoUrl" placeholder="YouTube URL or Video ID (e.g. dQw4w9WgXcQ)" 
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <input type="text" id="adminVideoSubject" placeholder="Subject (e.g. Anatomy)" 
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <button onclick="publishVideo()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl text-xs shadow transition">
+                        Publish Video
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. UPLOAD PDF NOTES -->
+            <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
+                <div class="flex items-center space-x-2 text-emerald-400">
+                    <i class="fas fa-file-pdf"></i>
+                    <h2 class="font-bold text-sm">Upload Handwritten PDF Notes</h2>
+                </div>
+                <div class="space-y-3">
+                    <input type="text" id="adminNoteTitle" placeholder="Notes Title (e.g. Pharmacology Chart)" 
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" id="adminNoteLink" placeholder="PDF / Google Drive Link" 
+                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <button onclick="publishNote()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl text-xs shadow transition">
+                        Save PDF Notes
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 3. STUDENTS MANAGEMENT & MUTE CONTROL -->
+        <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2 text-blue-400">
+                    <i class="fas fa-users"></i>
+                    <h2 class="font-bold text-sm">Registered Students & Chat Control</h2>
+                </div>
+                <span id="studentCount" class="text-xs bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full font-bold">0 Students</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-gray-700 text-gray-400">
+                            <th class="py-3 px-2">Name</th>
+                            <th class="py-3 px-2">Email</th>
+                            <th class="py-3 px-2">Batch</th>
+                            <th class="py-3 px-2">Score</th>
+                            <th class="py-3 px-2 text-center">Chat Control</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <tr><td colspan="5" class="text-center py-4 text-gray-500">Loading students data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 4. STUDENT DOUBTS INBOX -->
+        <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
+            <div class="flex items-center space-x-2 text-purple-400">
+                <i class="fas fa-comments"></i>
+                <h2 class="font-bold text-sm">Student Doubts Inbox</h2>
+            </div>
+            <div id="doubtsInbox" class="space-y-3">
+                <p class="text-xs text-gray-500 text-center py-4">No doubts submitted yet.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOBew7tWa5X0Mdw6UWpE1CcwZtPoh6tz4",
+            authDomain: "abhishek-classes-64457.firebaseapp.com",
+            databaseURL: "https://abhishek-classes-64457-default-rtdb.firebaseio.com",
+            projectId: "abhishek-classes-64457",
+            storageBucket: "abhishek-classes-64457.firebasestorage.app",
+            messagingSenderId: "685524152121",
+            appId: "1:685524152121:web:dd4a6e6eb91698e01d42e8"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const database = firebase.database();
+
+        // Publish Video
+        function publishVideo() {
+            const title = document.getElementById('adminVideoTitle').value;
+            const ytUrl = document.getElementById('adminVideoUrl').value;
+            const subject = document.getElementById('adminVideoSubject').value;
+            if (!title || !ytUrl) {
+                alert('Please enter title and YouTube URL!');
+                return;
+            }
+
+            let ytId = 'dQw4w9WgXcQ';
+            if (ytUrl.includes('v=')) {
+                ytId = ytUrl.split('v=')[1].substring(0, 11);
+            } else if (ytUrl.length === 11) {
+                ytId = ytUrl;
+            }
+
+            database.ref('lectures').push({
+                id: Date.now(),
+                title: title,
+                ytId: ytId,
+                subject: subject || 'General'
+            });
+
+            alert('YouTube Lecture Published Successfully!');
+            document.getElementById('adminVideoTitle').value = '';
+            document.getElementById('adminVideoUrl').value = '';
+            document.getElementById('adminVideoSubject').value = '';
+        }
+
+        // Publish Note
+        function publishNote() {
+            const title = document.getElementById('adminNoteTitle').value;
+            const link = document.getElementById('adminNoteLink').value;
+            if (!title) {
+                alert('Please enter notes title!');
+                return;
+            }
+
+            database.ref('notes').push({
+                id: Date.now(),
+                title: title,
+                link: link || '#'
+            });
+
+            alert('PDF Notes Saved Successfully!');
+            document.getElementById('adminNoteTitle').value = '';
+            document.getElementById('adminNoteLink').value = '';
+        }
+
+        // Load Students & Doubts
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load Students
+            database.ref('users').on('value', snapshot => {
+                const data = snapshot.val();
+                if (!data) {
+                    document.getElementById('studentsTableBody').innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-500">No registered students found.</td></tr>`;
+                    return;
+                }
+
+                const students = Object.entries(data);
+                document.getElementById('studentCount').textContent = `${students.length} Students`;
+
+                let html = '';
+                students.forEach(([uid, user]) => {
+                    html += `
+                        <tr class="border-b border-gray-700/50 hover:bg-gray-700/20">
+                            <td class="py-3 px-2 font-bold">${user.name || 'N/A'}</td>
+                            <td class="py-3 px-2 text-gray-400">${user.email || 'N/A'}</td>
+                            <td class="py-3 px-2 text-amber-400">${user.batch || 'Free Tier'}</td>
+                            <td class="py-3 px-2 text-green-400">${user.score || 0} Pts</td>
+                            <td class="py-3 px-2 text-center">
+                                <button onclick="toggleMute('${uid}', ${!user.muted})" class="px-3 py-1 rounded-xl text-[10px] font-bold ${user.muted ? 'bg-red-500 text-white' : 'bg-gray-700 text-gray-300'}">
+                                    ${user.muted ? 'Muted' : 'Active'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                document.getElementById('studentsTableBody').innerHTML = html;
+            });
+
+            // Load Doubts
+            database.ref('doubts').on('value', snapshot => {
+                const data = snapshot.val();
+                if (!data) {
+                    document.getElementById('doubtsInbox').innerHTML = `<p class="text-xs text-gray-500 text-center py-4">No doubts submitted yet.</p>`;
+                    return;
+                }
+
+                let html = '';
+                Object.entries(data).forEach(([key, item]) => {
+                    html += `
+                        <div class="bg-gray-900 p-3.5 rounded-2xl border border-gray-700 space-y-1">
+                            <div class="flex justify-between items-center text-[10px] text-gray-400">
+                                <span class="font-bold text-amber-400">${item.studentName} (${item.email})</span>
+                                <button onclick="deleteDoubt('${key}')" class="text-red-400 hover:underline">Clear / Delete</button>
+                            </div>
+                            <p class="text-xs text-white">${item.doubt}</p>
+                        </div>
+                    `;
+                });
+                document.getElementById('doubtsInbox').innerHTML = html;
+            });
+        });
+
+        function toggleMute(uid, muteStatus) {
+            database.ref('users/' + uid).update({ muted: muteStatus });
+        }
+
+        function deleteDoubt(key) {
+            database.ref('doubts/' + key).remove();
+        }
+    </script>
+</body>
+</html>
