@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study with Abhishek</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#16a34a',
+                            600: '#15803d',
+                            700: '#166534',
+                            gold: '#d97706',
+                            goldHover: '#b45309'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Standard Web Compatibility SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen pb-20 select-none">
+
+    <!-- APP HEADER -->
+    <header id="mainHeader" class="hidden sticky top-0 z-40 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-700 px-4 py-2.5 items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <img src="https://github.com/abhishekclasses-hub/AbhishekClasses-Hub/blob/main/Study%20with%20Abhishek%20Golden%20Education%20Logo.png?raw=true" 
+                 alt="Logo" class="w-10 h-10 object-cover rounded-full border-2 border-amber-500 shadow-sm p-0.5">
+            <div>
+                <a href="https://youtube.com/@studywithabhishek-z8d" target="_blank" class="font-bold text-sm leading-tight text-gray-900 dark:text-white hover:underline flex items-center">
+                    Study with Abhishek <i class="fas fa-external-link-alt text-[10px] ml-1 text-amber-500"></i>
+                </a>
+                <p class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-wide">GOLDEN EDUCATION HUB</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-amber-400 hover:scale-105 transition">
+                <i id="themeIcon" class="fas font-solid fa-sun text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- AUTHENTICATION CONTAINER (LOGIN / REGISTER) -->
+    <section id="authSection" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-amber-500/10 via-gray-900 to-black">
+        <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 relative overflow-hidden">
+            
+            <!-- Auth Logo with Rounded Border Cutout -->
+            <div class="text-center mb-6">
+                <div class="w-24 h-24 mx-auto mb-2 rounded-full p-1 bg-gradient-to-tr from-amber-500 to-yellow-300 shadow-lg flex items-center justify-center">
+                    <img src="https://github.com/abhishekclasses-hub/AbhishekClasses-Hub/blob/main/Study%20with%20Abhishek%20Golden%20Education%20Logo.png?raw=true" 
+                         alt="Logo" class="w-full h-full object-cover rounded-full bg-white dark:bg-gray-900">
+                </div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white">Study with Abhishek</h2>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Nursing & Medical Preparation Hub</p>
+            </div>
+
+            <!-- Login / Register Tabs -->
+            <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-xl mb-6">
+                <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 text-sm font-semibold rounded-lg bg-white dark:bg-gray-800 text-amber-600 dark:text-amber-400 shadow-sm transition">Login</button>
+                <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 text-sm font-semibold rounded-lg text-gray-500 dark:text-gray-400 transition">Register</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Gmail Address</label>
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="email" id="loginEmail" required placeholder="xyz@gmail.com" 
+                               class="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="password" id="loginPassword" required placeholder="••••••••" 
+                               class="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-lg shadow-amber-500/30 transition transform active:scale-95">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Full Name</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="text" id="regName" required placeholder="Enter your full name" 
+                               class="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Gmail Address (xyz@gmail.com)</label>
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="email" id="regEmail" required placeholder="xyz@gmail.com" pattern="[a-z0-9._%+-]+@gmail\.com$" title="Must be a valid @gmail.com format"
+                               class="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="password" id="regPassword" minlength="6" required placeholder="••••••••" 
+                               class="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Confirm Password</label>
+                    <div class="relative">
+                        <i class="fas fa-shield-alt absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="password" id="regConfirmPassword" minlength="6" required placeholder="••••••••" 
+                               class="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-lg shadow-amber-500/30 transition transform active:scale-95">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- MAIN APP VIEW PORT -->
+    <main id="appMain" class="hidden max-w-lg mx-auto p-4 space-y-6">
+
+        <!-- 1. HOME / DASHBOARD TAB -->
+        <section id="tab-home" class="tab-content space-y-5">
+            <!-- Hero Banner with Rounded Border Picture -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-500 to-yellow-600 text-white p-5 shadow-lg flex items-center justify-between border-2 border-amber-300/40">
+                <div class="relative z-10 max-w-[65%]">
+                    <span class="bg-white/20 text-[10px] px-2.5 py-0.5 rounded-full font-medium">Welcome Student</span>
+                    <h2 class="text-lg font-extrabold mt-1">Learn • Practice • Grow</h2>
+                    <p class="text-[11px] opacity-90 mt-1">Target NORCET & Nursing Competitive Exams.</p>
+                </div>
+                <div class="w-20 h-20 rounded-2xl p-1 bg-white/30 backdrop-blur-sm shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="https://github.com/abhishekclasses-hub/AbhishekClasses-Hub/blob/main/Study%20with%20Abhishek%20Golden%20Education%20Logo.png?raw=true" 
+                         class="w-full h-full object-cover rounded-xl">
+                </div>
+            </div>
+
+            <!-- Quick Action Grid -->
+            <div class="grid grid-cols-4 gap-3">
+                <button onclick="switchTab('courses')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Courses</span>
+                </button>
+                <button onclick="switchTab('notes')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Notes</span>
+                </button>
+                <button onclick="switchTab('videos')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Videos</span>
+                </button>
+                <button onclick="switchTab('live')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg mb-1 relative">
+                        <i class="fas fa-broadcast-tower"></i>
+                        <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></span>
+                    </div>
+                    <span class="text-[11px] font-semibold">Live Class</span>
+                </button>
+                <button onclick="switchTab('mcq')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Test Series</span>
+                </button>
+                <button onclick="switchTab('leaderboard')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-yellow-100 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Leaderboard</span>
+                </button>
+                <button onclick="switchTab('doubts')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-pink-100 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Doubt Box</span>
+                </button>
+                <button onclick="switchTab('profile')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
+                    <div class="w-10 h-10 rounded-2xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Profile</span>
+                </button>
+            </div>
+
+            <!-- Latest Video Lectures Section -->
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-base text-gray-900 dark:text-white">Latest Channel Lectures</h3>
+                    <button onclick="switchTab('videos')" class="text-xs text-amber-600 dark:text-amber-400 font-semibold">See All</button>
+                </div>
+                <div id="homeLecturesList" class="space-y-3">
+                    <p class="text-xs text-gray-400 text-center py-4">No lectures published yet. Admin will publish soon.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. COURSES / BATCHES TAB -->
+        <section id="tab-courses" class="tab-content hidden space-y-4">
+            <h2 class="text-lg font-bold">Select Your Batch</h2>
+
+            <!-- ALPHA BATCH CARD -->
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 border-2 border-amber-500/40 shadow-lg relative overflow-hidden">
+                <span class="absolute top-3 right-3 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">POPULAR</span>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">ALPHA</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">1 Year Full Nursing Foundation</p>
+                <div class="flex items-baseline space-x-2 my-3">
+                    <span class="text-2xl font-black text-amber-600 dark:text-amber-400">₹199</span>
+                    <span class="text-sm text-gray-400 line-through">₹499</span>
+                    <span class="text-xs font-semibold text-green-600 dark:text-green-400">Special Offer</span>
+                </div>
+                <ul class="text-xs space-y-1.5 text-gray-600 dark:text-gray-300 mb-4">
+                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Subject-wise Video Lectures</li>
+                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Daily Class Handwritten PDFs</li>
+                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Topic-wise MCQ Quizzes & Leaderboard</li>
+                </ul>
+                <button onclick="openBuyModal('Alpha', 199)" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow transition">
+                    Enroll in Alpha (₹199)
+                </button>
+            </div>
+
+            <!-- ALPHA+ BATCH CARD -->
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-3xl p-5 border border-amber-500/60 shadow-xl relative overflow-hidden">
+                <span class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">50% OFF</span>
+                <h3 class="text-xl font-bold text-amber-400">ALPHA+</h3>
+                <p class="text-xs text-gray-300 mt-0.5">1 Year Advanced NORCET & Live Mentorship</p>
+                <div class="flex items-baseline space-x-2 my-3">
+                    <span class="text-2xl font-black text-amber-400">₹499</span>
+                    <span class="text-sm text-gray-400 line-through">₹999</span>
+                </div>
+                <ul class="text-xs space-y-1.5 text-gray-300 mb-4">
+                    <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Everything in Alpha Batch</li>
+                    <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Live Interactive Classes (4 PM - 6 PM)</li>
+                    <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Personal Doubt Solving & PYQs</li>
+                </ul>
+                <button onclick="openBuyModal('Alpha+', 499)" class="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-bold rounded-2xl shadow-lg transition">
+                    Enroll in Alpha+ (₹499)
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. VIDEOS TAB -->
+        <section id="tab-videos" class="tab-content hidden space-y-4">
+            <h2 class="text-lg font-bold">YouTube Video Lectures</h2>
+            <div id="videoLecturesList" class="space-y-3">
+                <p class="text-xs text-gray-400 text-center py-6">No videos uploaded yet.</p>
+            </div>
+        </section>
+
+        <!-- 4. NOTES / PDF DOWNLOAD TAB -->
+        <section id="tab-notes" class="tab-content hidden space-y-4">
+            <h2 class="text-lg font-bold">Handwritten Notes & PDFs</h2>
+            <div id="notesList" class="space-y-3">
+                <p class="text-xs text-gray-400 text-center py-6">No notes available yet.</p>
+            </div>
+        </section>
+
+        <!-- 5. TEST SERIES / MCQ TAB -->
+        <section id="tab-mcq" class="tab-content hidden space-y-4">
+            <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl text-center space-y-1">
+                <i class="fas fa-clipboard-list text-amber-600 text-2xl mb-1"></i>
+                <h3 class="font-bold text-sm text-amber-600 dark:text-amber-400">Today No Test</h3>
+                <p class="text-[11px] text-gray-500">Scheduled test series will appear here when published by admin.</p>
+            </div>
+        </section>
+
+        <!-- 6. LEADERBOARD TAB -->
+        <section id="tab-leaderboard" class="tab-content hidden space-y-4">
+            <div class="bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-3xl p-5 text-center shadow-lg">
+                <i class="fas fa-trophy text-3xl mb-1 text-white"></i>
+                <h2 class="text-lg font-bold">All-India Leaderboard</h2>
+                <p class="text-xs opacity-90">Top Scorers Ranking</p>
+            </div>
+            <div id="leaderboardList" class="space-y-2">
+                <p class="text-xs text-gray-400 text-center py-4">Leaderboard updates after tests.</p>
+            </div>
+        </section>
+
+        <!-- 7. LIVE CLASS TAB -->
+        <section id="tab-live" class="tab-content hidden space-y-4">
+            <div class="bg-red-500 text-white p-3 rounded-2xl flex items-center justify-between text-xs font-bold shadow-sm">
+                <span><i class="fas fa-circle animate-pulse mr-1.5"></i> Daily Live Timing</span>
+                <span>4:00 PM - 6:00 PM</span>
+            </div>
+            <div class="aspect-video bg-black rounded-3xl flex items-center justify-center relative overflow-hidden shadow-lg">
+                <div class="text-center text-white p-4">
+                    <i class="fas fa-broadcast-tower text-4xl text-amber-500 mb-2 animate-bounce"></i>
+                    <p class="font-bold text-sm">Live Class Stream</p>
+                    <p class="text-xs text-gray-400 mt-1">Class timing: 4:00 PM to 6:00 PM</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. DOUBT BOX TAB -->
+        <section id="tab-doubts" class="tab-content hidden space-y-4">
+            <h2 class="text-lg font-bold">Ask Your Doubt</h2>
+            <div id="doubtBoxContainer" class="bg-white dark:bg-gray-800 rounded-3xl p-4 border border-gray-200 dark:border-gray-700 space-y-3 shadow-sm">
+                <textarea id="doubtInput" rows="3" placeholder="Apna question yahan likhein..." 
+                          class="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                <button onclick="submitDoubt()" class="w-full py-2.5 bg-amber-500 text-white font-bold text-xs rounded-2xl shadow">Submit Doubt</button>
+            </div>
+        </section>
+
+        <!-- 9. PROFILE & PROGRESS TAB -->
+        <section id="tab-profile" class="tab-content hidden space-y-4">
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 border border-gray-200 dark:border-gray-700 shadow-sm text-center">
+                <div class="w-20 h-20 rounded-full p-1 bg-amber-500 mx-auto mb-3 shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="https://github.com/abhishekclasses-hub/AbhishekClasses-Hub/blob/main/Study%20with%20Abhishek%20Golden%20Education%20Logo.png?raw=true" 
+                         class="w-full h-full object-cover rounded-full bg-white">
+                </div>
+                <h3 id="profileName" class="font-bold text-base">Student</h3>
+                <p id="profileEmail" class="text-xs text-gray-500">xyz@gmail.com</p>
+                
+                <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 grid grid-cols-3 gap-2 text-xs">
+                    <div>
+                        <p class="text-gray-400 text-[10px]">Batch</p>
+                        <p id="profileBatch" class="font-bold text-amber-600 dark:text-amber-400">Free Tier</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 text-[10px]">Score</p>
+                        <p id="profileScoreVal" class="font-bold text-green-500">0 Points</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 text-[10px]">Progress</p>
+                        <p class="font-bold text-blue-500">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="openLogoutModal()" class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 font-bold rounded-2xl border border-red-500/30 transition text-sm">
+                <i class="fas fa-sign-out-alt mr-2"></i> Confirm Logout
+            </button>
+        </section>
+    </main>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav id="bottomNav" class="hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 z-40">
+        <div class="max-w-lg mx-auto flex justify-around py-2">
+            <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-amber-600 dark:text-amber-400" data-tab="home">
+                <i class="fas fa-home text-lg"></i>
+                <span class="text-[10px] mt-0.5">Home</span>
+            </button>
+            <button onclick="switchTab('courses')" class="nav-btn flex flex-col items-center text-gray-400" data-tab="courses">
+                <i class="fas fa-graduation-cap text-lg"></i>
+                <span class="text-[10px] mt-0.5">Batches</span>
+            </button>
+            <button onclick="switchTab('videos')" class="nav-btn flex flex-col items-center text-gray-400" data-tab="videos">
+                <i class="fas fa-play text-lg"></i>
+                <span class="text-[10px] mt-0.5">Videos</span>
+            </button>
+            <button onclick="switchTab('notes')" class="nav-btn flex flex-col items-center text-gray-400" data-tab="notes">
+                <i class="fas fa-file-pdf text-lg"></i>
+                <span class="text-[10px] mt-0.5">Notes</span>
+            </button>
+            <button onclick="switchTab('profile')" class="nav-btn flex flex-col items-center text-gray-400" data-tab="profile">
+                <i class="fas fa-user text-lg"></i>
+                <span class="text-[10px] mt-0.5">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- BUY / QR CODE MODAL POPUP -->
+    <div id="buyModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-sm text-center relative space-y-4 shadow-2xl">
+            <button onclick="closeBuyModal()" class="absolute top-4 right-4 text-gray-400 text-lg hover:text-red-500">&times;</button>
+            <h3 id="buyModalTitle" class="text-lg font-bold">Enroll in Batch</h3>
+            
+            <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-3xl inline-block border border-amber-500/30 shadow-inner">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=abhishek@upi&pn=StudyWithAbhishek" 
+                     alt="Payment QR" class="w-40 h-40 mx-auto rounded-2xl shadow-sm">
+                <p class="text-[11px] font-mono text-gray-500 mt-2">UPI: abhishek@upi</p>
+            </div>
+
+            <div class="text-left bg-amber-500/10 p-3 rounded-2xl border border-amber-500/20 text-xs space-y-1">
+                <p class="font-bold text-amber-600 dark:text-amber-400">✨ Batch Benefits:</p>
+                <p class="text-gray-600 dark:text-gray-300">• Live Classes (4 PM to 6 PM)</p>
+                <p class="text-gray-600 dark:text-gray-300">• Daily Handwritten PDF Notes & Solutions</p>
+                <p class="text-gray-600 dark:text-gray-300">• Leaderboard & All India Rank</p>
+            </div>
+
+            <button onclick="confirmBatchPurchase()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow">
+                Start Your Journey
+            </button>
+        </div>
+    </div>
+
+    <!-- LOGOUT CONFIRMATION MODAL -->
+    <div id="logoutModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4 shadow-2xl">
+            <h3 class="text-lg font-bold text-red-600 dark:text-red-400">Confirm Logout</h3>
+            <p class="text-xs text-gray-500">Security check: Re-enter your password to logout</p>
+            
+            <input type="password" id="logoutConfirmPassword" placeholder="Enter your password" 
+                   class="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-2xl text-xs">
+
+            <div class="flex space-x-2">
+                <button onclick="closeLogoutModal()" class="flex-1 py-2.5 bg-gray-200 dark:bg-gray-700 text-xs font-bold rounded-2xl">Cancel</button>
+                <button onclick="executeLogout()" class="flex-1 py-2.5 bg-red-600 text-white text-xs font-bold rounded-2xl shadow">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP JAVASCRIPT LOGIC -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOBew7tWa5X0Mdw6UWpE1CcwZtPoh6tz4",
+            authDomain: "abhishek-classes-64457.firebaseapp.com",
+            databaseURL: "https://abhishek-classes-64457-default-rtdb.firebaseio.com",
+            projectId: "abhishek-classes-64457",
+            storageBucket: "abhishek-classes-64457.firebasestorage.app",
+            messagingSenderId: "685524152121",
+            appId: "1:685524152121:web:dd4a6e6eb91698e01d42e8"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        let currentUser = null;
+        let selectedBatch = '';
+
+        let appLectures = [];
+        let appNotes = [];
+        let leaderboardData = [];
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.className = 'fas fa-moon text-lg text-gray-700';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                themeIcon.className = 'fas fa-sun text-lg text-amber-400';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function switchAuthTab(type) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLoginBtn = document.getElementById('tabLoginBtn');
+            const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+
+            if (type === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabLoginBtn.className = 'flex-1 py-2 text-sm font-semibold rounded-lg bg-white dark:bg-gray-800 text-amber-600 dark:text-amber-400 shadow-sm transition';
+                tabRegisterBtn.className = 'flex-1 py-2 text-sm font-semibold rounded-lg text-gray-500 dark:text-gray-400 transition';
+            } else {
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabRegisterBtn.className = 'flex-1 py-2 text-sm font-semibold rounded-lg bg-white dark:bg-gray-800 text-amber-600 dark:text-amber-400 shadow-sm transition';
+                tabLoginBtn.className = 'flex-1 py-2 text-sm font-semibold rounded-lg text-gray-500 dark:text-gray-400 transition';
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.tab === tabId) {
+                    btn.className = 'nav-btn flex flex-col items-center text-amber-600 dark:text-amber-400';
+                } else {
+                    btn.className = 'nav-btn flex flex-col items-center text-gray-400';
+                }
+            });
+            window.scrollTo(0, 0);
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Password and Confirm Password do not match!');
+                return;
+            }
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                const userData = { name: name, email: email, batch: 'Free Tier', score: 0, muted: false, createdAt: new Date().toISOString() };
+                await database.ref('users/' + user.uid).set(userData);
+
+                currentUser = userData;
+                localStorage.setItem('appUser', JSON.stringify(userData));
+                launchAppView(userData);
+            } catch (error) {
+                const sanitizedEmailKey = email.replace(/[^a-zA-Z0-9]/g, "_");
+                const userData = { name: name, email: email, password: password, batch: 'Free Tier', score: 0, muted: false, createdAt: new Date().toISOString() };
+                await database.ref('custom_users/' + sanitizedEmailKey).set(userData);
+
+                currentUser = userData;
+                localStorage.setItem('appUser', JSON.stringify(userData));
+                launchAppView(userData);
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const snapshot = await database.ref('users/' + userCredential.user.uid).once('value');
+                const userData = snapshot.val() || { name: email.split('@')[0], email: email, batch: 'Free Tier', score: 0, muted: false };
+
+                currentUser = userData;
+                localStorage.setItem('appUser', JSON.stringify(userData));
+                launchAppView(userData);
+            } catch (error) {
+                const sanitizedEmailKey = email.replace(/[^a-zA-Z0-9]/g, "_");
+                const snapshot = await database.ref('custom_users/' + sanitizedEmailKey).once('value');
+                const userData = snapshot.val();
+
+                if (userData && userData.password === password) {
+                    currentUser = userData;
+                    localStorage.setItem('appUser', JSON.stringify(userData));
+                    launchAppView(userData);
+                } else {
+                    alert('Login failed: Invalid Gmail or Password.');
+                }
+            }
+        }
+
+        function launchAppView(userData) {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('mainHeader').classList.remove('hidden');
+            document.getElementById('mainHeader').classList.add('flex');
+            document.getElementById('appMain').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+
+            document.getElementById('profileName').textContent = userData.name || 'Student';
+            document.getElementById('profileEmail').textContent = userData.email || '';
+            document.getElementById('profileBatch').textContent = userData.batch || 'Free Tier';
+            document.getElementById('profileScoreVal').textContent = (userData.score || 0) + ' Points';
+
+            // Check if user is muted by admin
+            if (userData.muted) {
+                document.getElementById('doubtBoxContainer').innerHTML = '<p class="text-xs text-red-500 font-bold text-center py-4">You have been muted by Admin from asking doubts.</p>';
+            }
+
+            loadCloudData();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('appUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                launchAppView(currentUser);
+            }
+        });
+
+        function loadCloudData() {
+            database.ref('lectures').on('value', snapshot => {
+                const data = snapshot.val();
+                appLectures = data ? Object.values(data) : [];
+                renderLectures();
+            });
+
+            database.ref('notes').on('value', snapshot => {
+                const data = snapshot.val();
+                appNotes = data ? Object.values(data) : [];
+                renderNotes();
+            });
+        }
+
+        function openBuyModal(batchName, price) {
+            selectedBatch = batchName;
+            document.getElementById('buyModalTitle').textContent = `Enroll in ${batchName} (₹${price})`;
+            document.getElementById('buyModal').classList.remove('hidden');
+        }
+        function closeBuyModal() { document.getElementById('buyModal').classList.add('hidden'); }
+        
+        function confirmBatchPurchase() {
+            if (currentUser) {
+                currentUser.batch = selectedBatch;
+                localStorage.setItem('appUser', JSON.stringify(currentUser));
+                document.getElementById('profileBatch').textContent = selectedBatch;
+            }
+            alert(`Congratulations! You have successfully enrolled in ${selectedBatch}.`);
+            closeBuyModal();
+        }
+
+        function openLogoutModal() { document.getElementById('logoutModal').classList.remove('hidden'); }
+        function closeLogoutModal() { document.getElementById('logoutModal').classList.add('hidden'); }
+
+        function executeLogout() {
+            const password = document.getElementById('logoutConfirmPassword').value;
+            if (!password) {
+                alert('Please enter your password to logout.');
+                return;
+            }
+            auth.signOut();
+            localStorage.removeItem('appUser');
+            location.reload();
+        }
+
+        function renderLectures() {
+            if (appLectures.length === 0) {
+                document.getElementById('homeLecturesList').innerHTML = '<p class="text-xs text-gray-400 text-center py-4">No lectures published yet.</p>';
+                document.getElementById('videoLecturesList').innerHTML = '<p class="text-xs text-gray-400 text-center py-6">No videos uploaded yet.</p>';
+                return;
+            }
+            const html = appLectures.map(item => `
+                <div class="bg-white dark:bg-gray-800 p-3 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <div class="w-9 h-9 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center font-bold">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-gray-900 dark:text-white line-clamp-1">${item.title}</h4>
+                                <p class="text-[10px] text-gray-400">${item.subject || 'YouTube Lecture'}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="aspect-video w-full bg-black rounded-xl overflow-hidden">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/${item.ytId}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('homeLecturesList').innerHTML = html;
+            document.getElementById('videoLecturesList').innerHTML = html;
+        }
+
+        function renderNotes() {
+            if (appNotes.length === 0) {
+                document.getElementById('notesList').innerHTML = '<p class="text-xs text-gray-400 text-center py-6">No notes available yet.</p>';
+                return;
+            }
+            const html = appNotes.map(item => `
+                <div class="bg-white dark:bg-gray-800 p-3.5 rounded-2xl border border-gray-100 dark:border-gray-700 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xs text-gray-900 dark:text-white">${item.title}</h4>
+                            <p class="text-[10px] text-gray-400">PDF Document</p>
+                        </div>
+                    </div>
+                    <a href="${item.link || '#'}" target="_blank" class="px-3 py-1.5 bg-emerald-600 text-white rounded-xl text-[10px] font-bold shadow">Download</a>
+                </div>
+            `).join('');
+            document.getElementById('notesList').innerHTML = html;
+        }
+
+        function submitDoubt() {
+            const txt = document.getElementById('doubtInput').value;
+            if (!txt) return;
+            database.ref('doubts').push({ studentName: currentUser.name, email: currentUser.email, doubt: txt, time: new Date().toISOString() });
+            alert('Your doubt has been submitted successfully to Admin!');
+            document.getElementById('doubtInput').value = '';
+        }
+    </script>
+</body>
+</html>
