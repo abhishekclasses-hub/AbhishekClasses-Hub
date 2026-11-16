@@ -156,7 +156,7 @@
             </div>
         </section>
 
-        <!-- 2. COURSES / BATCHES TAB (WITH QR + UTR APPROVAL SYSTEM) -->
+        <!-- 2. COURSES / BATCHES TAB -->
         <section id="tab-courses" class="tab-content hidden space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-bold">Select Your Batch</h2>
@@ -172,7 +172,7 @@
                 <p class="text-xs text-gray-600 dark:text-gray-300">
                     Batch: <b id="pendingBatchName">-</b> | UTR: <b id="pendingUtrNumber" class="font-mono text-amber-400">-</b>
                 </p>
-                <p class="text-[11px] text-gray-400">Admin jaise hi Firebase me aapke naam ke andar status <b>"ok"</b> karega, aapka batch turant unlock ho jayega!</p>
+                <p class="text-[11px] text-gray-400">Admin jaise hi Firebase me aapke naam ke andar status <b>"ok"</b> karega, aapka batch aur saari series turant unlock ho jayengi!</p>
             </div>
 
             <!-- ALPHA BATCH CARD -->
@@ -186,7 +186,7 @@
                     <span class="text-xs font-semibold text-green-600 dark:text-green-400">60% OFF</span>
                 </div>
                 <ul class="text-xs space-y-1.5 text-gray-600 dark:text-gray-300 mb-4">
-                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Auto-Sync All YouTube Channel Series</li>
+                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Unlock All YouTube Channel Series</li>
                     <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Semester & Subject Wise Organized Lectures</li>
                     <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Handwritten PDF Notes, Tests & +50 Bonus Pts</li>
                 </ul>
@@ -215,7 +215,7 @@
             </div>
         </section>
 
-        <!-- 3. VIDEOS TAB (SERIES-WISE PROFESSIONAL PLAYLIST VIEW) -->
+        <!-- 3. VIDEOS TAB -->
         <section id="tab-videos" class="tab-content hidden space-y-4">
             <div class="flex items-center justify-between">
                 <div>
@@ -227,14 +227,14 @@
                 </button>
             </div>
 
-            <!-- Horizontal Category / Series Filter Pills -->
+            <!-- Series Filter Pills -->
             <div id="seriesFilterBar" class="flex space-x-2 overflow-x-auto hide-scrollbar pb-1"></div>
 
-            <!-- Series-wise Organized Videos Container -->
+            <!-- Series Container -->
             <div id="videoSeriesContainer" class="space-y-5"></div>
         </section>
 
-        <!-- 4. NOTES / PDF DOWNLOAD TAB -->
+        <!-- 4. NOTES TAB -->
         <section id="tab-notes" class="tab-content hidden space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-bold">Handwritten Notes & PDFs</h2>
@@ -243,7 +243,7 @@
             <div id="notesList" class="space-y-3"></div>
         </section>
 
-        <!-- 5. TEST SERIES / MCQ TAB -->
+        <!-- 5. TEST SERIES TAB -->
         <section id="tab-mcq" class="tab-content hidden space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-bold">NORCET Practice Test</h2>
@@ -289,7 +289,7 @@
             </div>
         </section>
 
-        <!-- 9. PROFILE & PROGRESS TAB -->
+        <!-- 9. PROFILE TAB -->
         <section id="tab-profile" class="tab-content hidden space-y-4">
             <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 border border-gray-200 dark:border-gray-700 shadow-sm text-center">
                 <div class="w-20 h-20 rounded-full p-1 bg-amber-500 mx-auto mb-3 shadow-md flex items-center justify-center overflow-hidden">
@@ -396,7 +396,7 @@
         </div>
     </div>
 
-    <!-- INITIAL GMAIL & NAME SYNC MODAL (SAVES ALL USER DATA UNDER THEIR NAME IN FIREBASE) -->
+    <!-- INITIAL GMAIL & NAME SYNC MODAL -->
     <div id="syncIdModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
         <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4 border border-amber-500/40 shadow-2xl">
             <div class="w-16 h-16 rounded-full p-1 bg-amber-500 mx-auto shadow-md overflow-hidden">
@@ -429,7 +429,6 @@
 
     <!-- MAIN APP JAVASCRIPT LOGIC -->
     <script>
-        // Your Exact Firebase Configuration (from screenshot)
         const firebaseConfig = {
             apiKey: "AIzaSyCOBew7tWa5X0Mdw6UWpE1CcwZtPoh6tz4",
             authDomain: "abhishek-classes-64457.firebaseapp.com",
@@ -447,37 +446,17 @@
         const database = firebase.database();
 
         let currentUser = null;
-        let userNameFolderKey = ''; // Firebase node key based on User's Name!
+        let userNameFolderKey = ''; 
         let selectedBatch = '';
         let selectedBatchPrice = 0;
         let activeSeriesFilter = 'ALL';
 
         const baseChannelVideos = [
-            {
-                ytId: "QUjW8GWZWFU",
-                title: "B.Sc. Nursing 1st Sem Digestive System #oneshot by Abhishek Sir",
-                published: "2025-02-27"
-            },
-            {
-                ytId: "Z8TRbAXCWTc",
-                title: "B.Sc. Nursing 1st Sem Renal System by Abhishek Sir",
-                published: "2025-02-28"
-            },
-            {
-                ytId: "ryXEYVhZCJM",
-                title: "B.Sc. Nursing 1st Sem Psychology #Unit1 by Abhishek Sharma Sir",
-                published: "2025-02-13"
-            },
-            {
-                ytId: "YAHex0M5PEc",
-                title: "B.Sc. Nursing 2nd Sem Complete Syllabus by Abhishek Sharma Sir #oneshot",
-                published: "2025-02-15"
-            },
-            {
-                ytId: "_zVoAqHOUOE",
-                title: "B.Sc. Nursing 3rd Semester Syllabus by Abhishek Sharma Sir #syllabus",
-                published: "2025-02-16"
-            }
+            { ytId: "QUjW8GWZWFU", title: "B.Sc. Nursing 1st Sem Digestive System #oneshot by Abhishek Sir", published: "2025-02-27" },
+            { ytId: "Z8TRbAXCWTc", title: "B.Sc. Nursing 1st Sem Renal System by Abhishek Sir", published: "2025-02-28" },
+            { ytId: "ryXEYVhZCJM", title: "B.Sc. Nursing 1st Sem Psychology #Unit1 by Abhishek Sharma Sir", published: "2025-02-13" },
+            { ytId: "YAHex0M5PEc", title: "B.Sc. Nursing 2nd Sem Complete Syllabus by Abhishek Sharma Sir #oneshot", published: "2025-02-15" },
+            { ytId: "_zVoAqHOUOE", title: "B.Sc. Nursing 3rd Semester Syllabus by Abhishek Sharma Sir #syllabus", published: "2025-02-16" }
         ];
 
         let allChannelVideos = [...baseChannelVideos];
@@ -488,24 +467,9 @@
         ];
 
         const sampleMcqs = [
-            {
-                id: "q1",
-                question: "Normal adult resting heart rate kitna hota hai?",
-                options: ["40 - 60 bpm", "60 - 100 bpm", "100 - 120 bpm", "120 - 140 bpm"],
-                answer: 1
-            },
-            {
-                id: "q2",
-                question: "Kidney ki structural aur functional unit kaunsi hoti hai?",
-                options: ["Neuron", "Nephron", "Alveoli", "Hepatocyte"],
-                answer: 1
-            },
-            {
-                id: "q3",
-                question: "Digestive system me maximum nutrient absorption kahan hota hai?",
-                options: ["Stomach", "Small Intestine", "Large Intestine", "Esophagus"],
-                answer: 1
-            }
+            { id: "q1", question: "Normal adult resting heart rate kitna hota hai?", options: ["40 - 60 bpm", "60 - 100 bpm", "100 - 120 bpm", "120 - 140 bpm"], answer: 1 },
+            { id: "q2", question: "Kidney ki structural aur functional unit kaunsi hoti hai?", options: ["Neuron", "Nephron", "Alveoli", "Hepatocyte"], answer: 1 },
+            { id: "q3", question: "Digestive system me maximum nutrient absorption kahan hota hai?", options: ["Stomach", "Small Intestine", "Large Intestine", "Esophagus"], answer: 1 }
         ];
 
         function showToast(msg) {
@@ -550,9 +514,6 @@
             document.getElementById('syncIdModal').classList.remove('hidden');
         }
 
-        // ==========================================================
-        // 1. AUTO-DETECT EMAIL & SAVE COMPLETE USER DATA UNDER USER'S NAME
-        // ==========================================================
         function initAppUserDetection() {
             const urlParams = new URLSearchParams(window.location.search);
             let appEmail = urlParams.get('email') || urlParams.get('user') || urlParams.get('gmail');
@@ -577,14 +538,12 @@
                         const parsed = JSON.parse(cached);
                         loadOrCreateStudentByNameAndEmail(parsed.email, parsed.name);
                     } else {
-                        // First time: Ask Gmail & Name so entire data is fetched & saved under their Name in Firebase
                         document.getElementById('syncIdModal').classList.remove('hidden');
                     }
                 }
             });
         }
 
-        // Live lookup when user types Gmail in the initial modal to auto-fill their existing Name from Firebase
         let lookupTimer = null;
         function autoFetchNamePreview(emailVal) {
             clearTimeout(lookupTimer);
@@ -593,7 +552,6 @@
 
             lookupTimer = setTimeout(async () => {
                 const emailKey = cleanEmail.replace(/[^a-zA-Z0-9]/g, "_");
-                // 1. Check email_to_name_index first
                 const indexSnap = await database.ref('email_to_name_index/' + emailKey).once('value');
                 if (indexSnap.exists()) {
                     const foundNameKey = indexSnap.val();
@@ -602,11 +560,6 @@
                         document.getElementById('manualSyncName').value = stuSnap.val().name;
                         return;
                     }
-                }
-                // 2. Check legacy custom_users or users nodes
-                const customSnap = await database.ref('custom_users/' + emailKey).once('value');
-                if (customSnap.exists() && customSnap.val().name) {
-                    document.getElementById('manualSyncName').value = customSnap.val().name;
                 }
             }, 400);
         }
@@ -628,12 +581,10 @@
             loadOrCreateStudentByNameAndEmail(email, name);
         }
 
-        // Core Function: Saves & Syncs ALL User Data inside `students_data/{User_Name}` in Firebase
         async function loadOrCreateStudentByNameAndEmail(email, passedName) {
             const cleanEmail = email.trim().toLowerCase();
             const emailKey = cleanEmail.replace(/[^a-zA-Z0-9]/g, "_");
 
-            // Check if this Gmail already has a Name folder mapped in Firebase
             let resolvedName = passedName;
             const indexSnap = await database.ref('email_to_name_index/' + emailKey).once('value');
 
@@ -641,28 +592,19 @@
                 userNameFolderKey = indexSnap.val();
             } else {
                 if (!resolvedName) {
-                    const customSnap = await database.ref('custom_users/' + emailKey).once('value');
-                    if (customSnap.exists() && customSnap.val().name) {
-                        resolvedName = customSnap.val().name;
-                    } else {
-                        resolvedName = cleanEmail.split('@')[0].replace(/[0-9._]/g, ' ').trim() || 'Student';
-                        resolvedName = resolvedName.charAt(0).toUpperCase() + resolvedName.slice(1);
-                    }
+                    resolvedName = cleanEmail.split('@')[0].replace(/[0-9._]/g, ' ').trim() || 'Student';
+                    resolvedName = resolvedName.charAt(0).toUpperCase() + resolvedName.slice(1);
                 }
-                // Create clean Firebase key using User's Name (e.g. "Abhishek_Sharma")
                 userNameFolderKey = resolvedName.replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_");
                 if (!userNameFolderKey) userNameFolderKey = emailKey;
             }
 
-            // Link email -> Name folder in Firebase for instant lookup next time
             await database.ref('email_to_name_index/' + emailKey).set(userNameFolderKey);
 
-            // Listen to ALL data inside `students_data/{User_Name}`
             const studentRef = database.ref('students_data/' + userNameFolderKey);
             studentRef.on('value', snapshot => {
                 let data = snapshot.val();
                 if (!data) {
-                    // Create fresh complete profile under User's Name in Firebase
                     data = {
                         name: resolvedName || userNameFolderKey.replace(/_/g, ' '),
                         email: cleanEmail,
@@ -671,18 +613,14 @@
                         progress: '0%',
                         paymentStatus: 'none',
                         utrNumber: '',
-                        watchedVideosCount: 0,
-                        solvedMcqsCount: 0,
                         lastActive: new Date().toISOString()
                     };
                     studentRef.set(data);
                 } else {
-                    // Ensure email & name stay synced
                     if (cleanEmail && data.email !== cleanEmail) {
                         studentRef.update({ email: cleanEmail });
                         data.email = cleanEmail;
                     }
-                    // Check if Admin set paymentStatus = "ok" inside this user's Name node!
                     const payStatus = (data.paymentStatus || '').toString().trim().toLowerCase();
                     if ((payStatus === 'ok' || payStatus === 'approved') && data.pendingBatch && data.batch !== data.pendingBatch) {
                         const bonus = data.pendingBatch === 'Alpha+' ? 150 : 50;
@@ -692,7 +630,7 @@
                             score: updatedScore,
                             paymentStatus: 'approved_active'
                         });
-                        showToast(`🎉 Admin Approved! ${data.pendingBatch} Batch Equipped (+${bonus} Pts)!`);
+                        showToast(`🎉 Admin Approved! ${data.pendingBatch} Batch Unlocked (+${bonus} Pts)!`);
                         syncYouTubeChannelVideos(false);
                     }
                 }
@@ -703,9 +641,6 @@
             });
         }
 
-        // ==========================================================
-        // 2. UTR PAYMENT SUBMISSION (SAVES INSIDE USER'S NAME NODE + PAYMENT_REQUESTS)
-        // ==========================================================
         function openBuyModal(batchName, price) {
             selectedBatch = batchName;
             selectedBatchPrice = price;
@@ -730,16 +665,14 @@
 
             const submittedTime = new Date().toISOString();
 
-            // 1. Save directly inside User's Name folder (`students_data/{User_Name}`)
             database.ref('students_data/' + userNameFolderKey).update({
                 pendingBatch: selectedBatch,
                 utrNumber: utr,
                 paymentAmount: selectedBatchPrice,
-                paymentStatus: 'pending', // Admin changes this to 'ok' to approve!
+                paymentStatus: 'pending', 
                 paymentSubmittedAt: submittedTime
             });
 
-            // 2. Also mirror in `payment_requests/{User_Name}` for quick admin check
             database.ref('payment_requests/' + userNameFolderKey).set({
                 studentName: currentUser.name,
                 email: currentUser.email,
@@ -750,7 +683,6 @@
                 submittedAt: submittedTime
             });
 
-            // Listen if Admin updates `payment_requests/{User_Name}/status` to "ok"
             database.ref('payment_requests/' + userNameFolderKey + '/status').on('value', snap => {
                 const st = (snap.val() || '').toString().trim().toLowerCase();
                 if (st === 'ok' || st === 'approved') {
@@ -761,7 +693,7 @@
             });
 
             closeBuyModal();
-            showToast('✅ UTR Saved under your Name! Admin ke "ok" karte hi unlock ho jayega.');
+            showToast('✅ UTR Saved! Admin ke "ok" karte hi saari series aur content unlock ho jayega.');
         }
 
         function isBatchPurchased() {
@@ -803,7 +735,7 @@
                         <div class="flex items-center space-x-2.5">
                             <i class="fas fa-check-circle text-green-500 text-lg"></i>
                             <div>
-                                <h4 class="text-xs font-bold text-green-500">${user.batch} Batch Equipped & Active</h4>
+                                <h4 class="text-xs font-bold text-green-500">${user.batch} Batch Unlocked & Active</h4>
                                 <p class="text-[10px] text-gray-400">All YouTube Series, Notes & Tests Unlocked</p>
                             </div>
                         </div>
@@ -848,10 +780,10 @@
             }
 
             if (user.batch === 'Alpha') {
-                document.getElementById('btnBuyAlpha').textContent = '✓ Equipped (Active Batch)';
+                document.getElementById('btnBuyAlpha').textContent = '✓ Unlocked (Active Batch)';
                 document.getElementById('btnBuyAlpha').className = 'w-full py-3 bg-green-600 text-white font-bold rounded-2xl shadow';
             } else if (user.batch === 'Alpha+') {
-                document.getElementById('btnBuyAlphaPlus').textContent = '✓ Equipped (Active Batch)';
+                document.getElementById('btnBuyAlphaPlus').textContent = '✓ Unlocked (Active Batch)';
                 document.getElementById('btnBuyAlphaPlus').className = 'w-full py-3 bg-green-600 text-white font-bold rounded-2xl shadow';
             }
 
@@ -862,9 +794,6 @@
             renderDoubtSection();
         }
 
-        // ==========================================================
-        // 3. AUTO-FETCH YOUTUBE VIDEOS & ORGANIZE SERIES-WISE
-        // ==========================================================
         async function syncYouTubeChannelVideos(manualClick = false) {
             const spinIcon = document.getElementById('syncSpinIcon');
             if (spinIcon) spinIcon.classList.add('fa-spin');
@@ -1058,9 +987,6 @@
             }).join('');
         }
 
-        // ==========================================================
-        // 4. POINTS, NOTES, MCQ, LIVE CLASS, DOUBTS & LEADERBOARD
-        // ==========================================================
         function addPoints(points, reason) {
             if (!userNameFolderKey || !currentUser) return;
             const newScore = (currentUser.score || 0) + points;
@@ -1080,7 +1006,7 @@
                         <i class="fas fa-lock"></i>
                     </div>
                     <h3 class="font-bold text-base">${featureName} Locked</h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Batch buy karke apna <b>UTR Number</b> submit karein. Admin approval ke turant baad unlock ho jayega.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Batch buy karke apna <b>UTR Number</b> submit karein. Admin approval ke turant baad sab kuch ek saath unlock ho jayega.</p>
                     <button onclick="switchTab('courses')" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow">
                         Select Batch (Starting ₹199)
                     </button>
@@ -1187,7 +1113,6 @@
                 time: new Date().toISOString()
             };
 
-            // Save inside User's Name folder AND global doubts
             database.ref(`students_data/${userNameFolderKey}/doubts`).push(doubtObj);
             database.ref('doubts').push(doubtObj);
 
@@ -1205,7 +1130,6 @@
         }
 
         function loadCloudLeaderboardAndDoubts() {
-            // Live Leaderboard directly from `students_data` (stored by User's Name)
             database.ref('students_data').on('value', snapshot => {
                 const usersObj = snapshot.val() || {};
                 const sorted = Object.values(usersObj).sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 15);
