@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study with Abhishek</title>
+    <title>Study with Abhishek - Pro Learning Hub</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,11 +13,6 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#16a34a',
-                            600: '#15803d',
-                            700: '#166534',
                             gold: '#d97706',
                             goldHover: '#b45309'
                         }
@@ -29,9 +24,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Firebase Standard Web Compatibility SDKs -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -50,10 +45,10 @@
             <img src="https://github.com/abhishekclasses-hub/AbhishekClasses-Hub/blob/main/Study%20with%20Abhishek%20Golden%20Education%20Logo.png?raw=true" 
                  alt="Logo" class="w-10 h-10 object-cover rounded-full border-2 border-amber-500 shadow-sm p-0.5">
             <div>
-                <a href="https://youtube.com/@studywithabhishek-z8d" target="_blank" class="font-bold text-sm leading-tight text-gray-900 dark:text-white hover:underline flex items-center">
-                    Study with Abhishek <i class="fas fa-external-link-alt text-[10px] ml-1 text-amber-500"></i>
-                </a>
-                <p id="headerUserBadge" class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-wide">Detecting App ID...</p>
+                <h1 class="font-bold text-sm leading-tight text-gray-900 dark:text-white flex items-center">
+                    Study with Abhishek <i class="fas fa-check-circle text-[11px] ml-1 text-amber-500"></i>
+                </h1>
+                <p id="headerUserBadge" class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-wide truncate max-w-[170px]">Syncing App ID...</p>
             </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -78,39 +73,35 @@
             <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-500 to-yellow-600 text-white p-5 shadow-lg flex items-center justify-between border-2 border-amber-300/40">
                 <div class="relative z-10 max-w-[68%]">
                     <div class="flex items-center space-x-2">
-                        <span id="homeBatchBadge" class="bg-black/25 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase">Free Tier</span>
-                        <span class="bg-white/20 text-[10px] px-2 py-0.5 rounded-full font-medium">App Verified</span>
+                        <span id="homeBatchBadge" class="bg-black/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Free Tier</span>
+                        <span class="bg-white/20 text-[10px] px-2 py-0.5 rounded-full font-medium"><i class="fas fa-shield-alt mr-1"></i>Verified</span>
                     </div>
                     <h2 id="homeWelcomeText" class="text-lg font-extrabold mt-1.5 leading-snug">Welcome, Student!</h2>
-                    <p class="text-[11px] opacity-90 mt-1">B.Sc. Nursing & NORCET Preparation Hub.</p>
+                    <p id="homeSubEmail" class="text-[11px] opacity-90 mt-0.5 truncate">Syncing your learning profile...</p>
                 </div>
-                <div class="w-20 h-20 rounded-2xl p-1 bg-white/30 backdrop-blur-sm shadow-md flex items-center justify-center overflow-hidden">
+                <div class="w-20 h-20 rounded-2xl p-1 bg-white/30 backdrop-blur-sm shadow-md flex items-center justify-center overflow-hidden shrink-0">
                     <img src="https://github.com/abhishekclasses-hub/AbhishekClasses-Hub/blob/main/Study%20with%20Abhishek%20Golden%20Education%20Logo.png?raw=true" 
                          class="w-full h-full object-cover rounded-xl">
                 </div>
             </div>
 
-            <!-- Upgrade Alert Banner (Shown only if Free Tier) -->
-            <div id="freeTierAlert" onclick="switchTab('courses')" class="cursor-pointer bg-red-500/10 border border-red-500/30 rounded-2xl p-3.5 flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-xl bg-red-500 text-white flex items-center justify-center shrink-0">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-xs font-bold text-red-600 dark:text-red-400">Batch Not Active!</h4>
-                        <p class="text-[10px] text-gray-500 dark:text-gray-400">Videos, Notes, Tests & Live Classes unlock karne ke liye Batch buy karein.</p>
-                    </div>
-                </div>
-                <span class="text-xs font-bold text-amber-500 shrink-0 ml-2">Buy <i class="fas fa-arrow-right"></i></span>
-            </div>
+            <!-- Payment Status Alert (Free Tier / Pending UTR / Active) -->
+            <div id="batchStatusBanner"></div>
 
             <!-- Quick Action Grid -->
             <div class="grid grid-cols-4 gap-3">
                 <button onclick="switchTab('courses')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
                     <div class="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg mb-1">
-                        <i class="fas fa-book-open"></i>
+                        <i class="fas fa-crown"></i>
                     </div>
                     <span class="text-[11px] font-semibold">Batches</span>
+                </button>
+                <button onclick="switchTab('videos')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition relative">
+                    <span class="lock-badge hidden absolute top-1.5 right-1.5 text-[9px] text-amber-500"><i class="fas fa-lock"></i></span>
+                    <div class="w-10 h-10 rounded-2xl bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold">Series</span>
                 </button>
                 <button onclick="switchTab('notes')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition relative">
                     <span class="lock-badge hidden absolute top-1.5 right-1.5 text-[9px] text-amber-500"><i class="fas fa-lock"></i></span>
@@ -119,12 +110,12 @@
                     </div>
                     <span class="text-[11px] font-semibold">Notes</span>
                 </button>
-                <button onclick="switchTab('videos')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition relative">
+                <button onclick="switchTab('mcq')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition relative">
                     <span class="lock-badge hidden absolute top-1.5 right-1.5 text-[9px] text-amber-500"><i class="fas fa-lock"></i></span>
-                    <div class="w-10 h-10 rounded-2xl bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 flex items-center justify-center text-lg mb-1">
-                        <i class="fas fa-play-circle"></i>
+                    <div class="w-10 h-10 rounded-2xl bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg mb-1">
+                        <i class="fas fa-question-circle"></i>
                     </div>
-                    <span class="text-[11px] font-semibold">Videos</span>
+                    <span class="text-[11px] font-semibold">Tests</span>
                 </button>
                 <button onclick="switchTab('live')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition relative">
                     <span class="lock-badge hidden absolute top-1.5 right-1.5 text-[9px] text-amber-500"><i class="fas fa-lock"></i></span>
@@ -134,25 +125,18 @@
                     </div>
                     <span class="text-[11px] font-semibold">Live Class</span>
                 </button>
-                <button onclick="switchTab('mcq')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition relative">
-                    <span class="lock-badge hidden absolute top-1.5 right-1.5 text-[9px] text-amber-500"><i class="fas fa-lock"></i></span>
-                    <div class="w-10 h-10 rounded-2xl bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 flex items-center justify-center text-lg mb-1">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <span class="text-[11px] font-semibold">Test Series</span>
-                </button>
                 <button onclick="switchTab('leaderboard')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
                     <div class="w-10 h-10 rounded-2xl bg-yellow-100 dark:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 flex items-center justify-center text-lg mb-1">
                         <i class="fas fa-trophy"></i>
                     </div>
-                    <span class="text-[11px] font-semibold">Leaderboard</span>
+                    <span class="text-[11px] font-semibold">Rankings</span>
                 </button>
                 <button onclick="switchTab('doubts')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition relative">
                     <span class="lock-badge hidden absolute top-1.5 right-1.5 text-[9px] text-amber-500"><i class="fas fa-lock"></i></span>
                     <div class="w-10 h-10 rounded-2xl bg-pink-100 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400 flex items-center justify-center text-lg mb-1">
                         <i class="fas fa-comments"></i>
                     </div>
-                    <span class="text-[11px] font-semibold">Doubt Box</span>
+                    <span class="text-[11px] font-semibold">Doubts</span>
                 </button>
                 <button onclick="switchTab('profile')" class="flex flex-col items-center p-3 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:scale-105 transition">
                     <div class="w-10 h-10 rounded-2xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg mb-1">
@@ -162,37 +146,49 @@
                 </button>
             </div>
 
-            <!-- Latest Channel Lectures Section -->
+            <!-- Series Overview Preview on Home -->
             <div>
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="font-bold text-base text-gray-900 dark:text-white">Study with Abhishek Lectures</h3>
-                    <button onclick="switchTab('videos')" class="text-xs text-amber-600 dark:text-amber-400 font-semibold">See All</button>
+                    <h3 class="font-bold text-base text-gray-900 dark:text-white">Course Series & Lectures</h3>
+                    <button onclick="switchTab('videos')" class="text-xs text-amber-600 dark:text-amber-400 font-semibold">Open All Series <i class="fas fa-chevron-right text-[10px]"></i></button>
                 </div>
-                <div id="homeLecturesList" class="space-y-4"></div>
+                <div id="homeSeriesPreview" class="space-y-3"></div>
             </div>
         </section>
 
-        <!-- 2. COURSES / BATCHES TAB -->
+        <!-- 2. COURSES / BATCHES TAB (WITH QR + UTR APPROVAL SYSTEM) -->
         <section id="tab-courses" class="tab-content hidden space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-bold">Select Your Batch</h2>
-                <span id="activeBatchTag" class="text-xs bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full font-bold">Current: Free Tier</span>
+                <span id="activeBatchTag" class="text-xs bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full font-bold">Status: Free Tier</span>
+            </div>
+
+            <!-- Pending UTR Status Card (If user submitted UTR and waiting for Admin 'ok') -->
+            <div id="pendingUtrCard" class="hidden bg-amber-500/10 border border-amber-500/40 rounded-3xl p-4 space-y-2">
+                <div class="flex items-center space-x-2 text-amber-500 font-bold text-xs">
+                    <i class="fas fa-clock animate-spin"></i>
+                    <span>Payment Verification Pending</span>
+                </div>
+                <p class="text-xs text-gray-600 dark:text-gray-300">
+                    Batch: <b id="pendingBatchName">-</b> | UTR: <b id="pendingUtrNumber" class="font-mono text-amber-400">-</b>
+                </p>
+                <p class="text-[11px] text-gray-400">Admin jaise hi Firebase me aapka UTR verify karke <b>"ok"</b> karega, aapka batch aur saari video series turant unlock ho jayengi!</p>
             </div>
 
             <!-- ALPHA BATCH CARD -->
             <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 border-2 border-amber-500/40 shadow-lg relative overflow-hidden">
                 <span class="absolute top-3 right-3 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">POPULAR</span>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">ALPHA</h3>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">1 Year Full Nursing Foundation</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">ALPHA BATCH</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">1 Year Complete B.Sc. Nursing Foundation</p>
                 <div class="flex items-baseline space-x-2 my-3">
                     <span class="text-2xl font-black text-amber-600 dark:text-amber-400">₹199</span>
                     <span class="text-sm text-gray-400 line-through">₹499</span>
-                    <span class="text-xs font-semibold text-green-600 dark:text-green-400">Special Offer</span>
+                    <span class="text-xs font-semibold text-green-600 dark:text-green-400">60% OFF</span>
                 </div>
                 <ul class="text-xs space-y-1.5 text-gray-600 dark:text-gray-300 mb-4">
-                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Unlock All YouTube Video Lectures</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Unlock Handwritten PDF Notes</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Unlock MCQ Test Series & +50 Bonus Points</li>
+                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Auto-Sync All YouTube Channel Series</li>
+                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Semester & Subject Wise Organized Lectures</li>
+                    <li><i class="fas fa-check-circle text-green-500 mr-1.5"></i> Handwritten PDF Notes, Tests & +50 Bonus Pts</li>
                 </ul>
                 <button id="btnBuyAlpha" onclick="openBuyModal('Alpha', 199)" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow transition">
                     Enroll in Alpha (₹199)
@@ -201,17 +197,17 @@
 
             <!-- ALPHA+ BATCH CARD -->
             <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-3xl p-5 border border-amber-500/60 shadow-xl relative overflow-hidden">
-                <span class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">50% OFF</span>
-                <h3 class="text-xl font-bold text-amber-400">ALPHA+</h3>
-                <p class="text-xs text-gray-300 mt-0.5">1 Year Advanced NORCET & Live Mentorship</p>
+                <span class="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">PRO MENTORSHIP</span>
+                <h3 class="text-xl font-bold text-amber-400">ALPHA+ PRO</h3>
+                <p class="text-xs text-gray-300 mt-0.5">1 Year NORCET + All Semesters + Live Classes</p>
                 <div class="flex items-baseline space-x-2 my-3">
                     <span class="text-2xl font-black text-amber-400">₹499</span>
                     <span class="text-sm text-gray-400 line-through">₹999</span>
                 </div>
                 <ul class="text-xs space-y-1.5 text-gray-300 mb-4">
                     <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Everything in Alpha Batch</li>
-                    <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Unlock Live Interactive Classes (4 PM - 6 PM)</li>
-                    <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Personal Doubt Box & +150 Bonus Points</li>
+                    <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Daily Live Interactive Classes (4 PM - 6 PM)</li>
+                    <li><i class="fas fa-star text-amber-400 mr-1.5"></i> Direct Doubt Solving & +150 Bonus Pts</li>
                 </ul>
                 <button id="btnBuyAlphaPlus" onclick="openBuyModal('Alpha+', 499)" class="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-bold rounded-2xl shadow-lg transition">
                     Enroll in Alpha+ (₹499)
@@ -219,45 +215,23 @@
             </div>
         </section>
 
-        <!-- 3. VIDEOS TAB (YT LINK -> AUTO THUMBNAIL -> CLICK TO OPEN YT) -->
+        <!-- 3. VIDEOS TAB (SERIES-WISE PROFESSIONAL PLAYLIST VIEW) -->
         <section id="tab-videos" class="tab-content hidden space-y-4">
             <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold">YouTube Video Lectures</h2>
-                <button onclick="toggleAddVideoForm()" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl shadow flex items-center space-x-1">
-                    <i class="fab fa-youtube"></i> <span>Link YT Video</span>
-                </button>
-            </div>
-
-            <!-- Add YouTube Link Box with Live Thumbnail Preview -->
-            <div id="addVideoBox" class="hidden bg-white dark:bg-gray-800 p-4 rounded-3xl border border-amber-500/40 shadow-md space-y-3">
-                <h4 class="text-xs font-bold text-amber-500 uppercase">Link New YouTube Video</h4>
-                <input type="text" id="ytTitleInput" placeholder="Lecture Title (e.g. Anatomy Part 1)" 
-                       class="w-full p-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-xs">
-                <input type="text" id="ytSubjectInput" placeholder="Subject (e.g. B.Sc. Nursing 1st Sem)" 
-                       class="w-full p-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-xs">
-                <input type="url" id="ytLinkInput" oninput="previewYtThumbnail(this.value)" placeholder="Paste YouTube Link (youtu.be/... or youtube.com/watch?v=...)" 
-                       class="w-full p-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-xs">
-                
-                <!-- Auto Thumbnail Preview -->
-                <div id="ytPreviewContainer" class="hidden space-y-1">
-                    <p class="text-[10px] text-green-500 font-semibold"><i class="fas fa-check-circle"></i> YouTube Thumbnail Detected:</p>
-                    <div class="relative aspect-video rounded-2xl overflow-hidden border border-gray-700">
-                        <img id="ytPreviewImg" src="" alt="Thumbnail Preview" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                            <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg">
-                                <i class="fas fa-play ml-0.5"></i>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <h2 class="text-lg font-bold">Course Series & Lectures</h2>
+                    <p class="text-[10px] text-gray-400">Auto-synced from @studywithabhishek-z8d</p>
                 </div>
-
-                <button onclick="saveYtVideoLink()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow">
-                    Publish Video Lecture
+                <button onclick="syncYouTubeChannelVideos(true)" class="px-3 py-1.5 bg-gray-200 dark:bg-gray-800 hover:border-amber-500 border border-gray-300 dark:border-gray-700 text-xs font-bold rounded-xl flex items-center space-x-1.5">
+                    <i id="syncSpinIcon" class="fas fa-sync-alt text-amber-500"></i> <span>Sync YT</span>
                 </button>
             </div>
 
-            <!-- Gated Video Container -->
-            <div id="videoLecturesList" class="space-y-4"></div>
+            <!-- Horizontal Category / Series Filter Pills -->
+            <div id="seriesFilterBar" class="flex space-x-2 overflow-x-auto hide-scrollbar pb-1"></div>
+
+            <!-- Series-wise Organized Videos Container -->
+            <div id="videoSeriesContainer" class="space-y-5"></div>
         </section>
 
         <!-- 4. NOTES / PDF DOWNLOAD TAB -->
@@ -269,7 +243,7 @@
             <div id="notesList" class="space-y-3"></div>
         </section>
 
-        <!-- 5. TEST SERIES / MCQ TAB (WORKABLE QUIZ) -->
+        <!-- 5. TEST SERIES / MCQ TAB -->
         <section id="tab-mcq" class="tab-content hidden space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-bold">NORCET Practice Test</h2>
@@ -283,7 +257,7 @@
             <div class="bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-3xl p-5 text-center shadow-lg">
                 <i class="fas fa-trophy text-3xl mb-1 text-white"></i>
                 <h2 class="text-lg font-bold">All-India Leaderboard</h2>
-                <p class="text-xs opacity-90">Live Points Ranking</p>
+                <p class="text-xs opacity-90">Top Students by Points</p>
             </div>
             <div id="leaderboardList" class="space-y-2"></div>
         </section>
@@ -323,9 +297,9 @@
                          class="w-full h-full object-cover rounded-full bg-white">
                 </div>
                 <h3 id="profileName" class="font-bold text-base">Student</h3>
-                <p id="profileEmail" class="text-xs text-gray-500">App ID Syncing...</p>
-                <span class="inline-block mt-1 px-2.5 py-0.5 bg-green-500/10 text-green-500 text-[10px] font-bold rounded-full border border-green-500/20">
-                    <i class="fas fa-mobile-alt mr-1"></i> Logged in via Android App
+                <p id="profileEmail" class="text-xs text-gray-500">Syncing ID...</p>
+                <span class="inline-block mt-1.5 px-3 py-0.5 bg-green-500/10 text-green-500 text-[10px] font-bold rounded-full border border-green-500/20">
+                    <i class="fas fa-mobile-alt mr-1"></i> Connected with Android App
                 </span>
                 
                 <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 grid grid-cols-3 gap-2 text-xs">
@@ -355,15 +329,6 @@
                 </div>
             </div>
 
-            <!-- Points History / Rules -->
-            <div class="bg-white dark:bg-gray-800 rounded-3xl p-4 border border-gray-200 dark:border-gray-700 space-y-2 text-xs">
-                <h4 class="font-bold text-amber-500"><i class="fas fa-bolt mr-1"></i> How to Earn Points?</h4>
-                <div class="flex justify-between text-gray-500 dark:text-gray-400"><span>• Watch YouTube Lecture</span><span class="font-bold text-green-500">+10 Pts</span></div>
-                <div class="flex justify-between text-gray-500 dark:text-gray-400"><span>• Download PDF Notes</span><span class="font-bold text-green-500">+5 Pts</span></div>
-                <div class="flex justify-between text-gray-500 dark:text-gray-400"><span>• Correct MCQ Answer</span><span class="font-bold text-green-500">+20 Pts</span></div>
-                <div class="flex justify-between text-gray-500 dark:text-gray-400"><span>• Join Live Class</span><span class="font-bold text-green-500">+15 Pts</span></div>
-            </div>
-
             <button onclick="triggerAppLogout()" class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 font-bold rounded-2xl border border-red-500/30 transition text-sm">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout from App
             </button>
@@ -382,8 +347,8 @@
                 <span class="text-[10px] mt-0.5">Batches</span>
             </button>
             <button onclick="switchTab('videos')" class="nav-btn flex flex-col items-center text-gray-400" data-tab="videos">
-                <i class="fas fa-play text-lg"></i>
-                <span class="text-[10px] mt-0.5">Videos</span>
+                <i class="fas fa-layer-group text-lg"></i>
+                <span class="text-[10px] mt-0.5">Series</span>
             </button>
             <button onclick="switchTab('notes')" class="nav-btn flex flex-col items-center text-gray-400" data-tab="notes">
                 <i class="fas fa-file-pdf text-lg"></i>
@@ -396,33 +361,57 @@
         </div>
     </nav>
 
-    <!-- BUY / QR CODE MODAL POPUP -->
-    <div id="buyModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-sm text-center relative space-y-4 shadow-2xl">
-            <button onclick="closeBuyModal()" class="absolute top-4 right-4 text-gray-400 text-xl hover:text-red-500">&times;</button>
-            <h3 id="buyModalTitle" class="text-lg font-bold">Enroll in Batch</h3>
+    <!-- BUY / QR CODE + UTR SUBMISSION MODAL -->
+    <div id="buyModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 w-full max-w-sm text-center relative space-y-3.5 shadow-2xl border border-amber-500/30">
+            <button onclick="closeBuyModal()" class="absolute top-3.5 right-4 text-gray-400 text-2xl hover:text-red-500">&times;</button>
+            <div>
+                <span class="bg-amber-500/15 text-amber-500 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Step 1: Scan & Pay</span>
+                <h3 id="buyModalTitle" class="text-lg font-bold mt-1">Enroll in Batch</h3>
+            </div>
             
-            <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-3xl inline-block border border-amber-500/30 shadow-inner">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=abhishek@upi&pn=StudyWithAbhishek" 
-                     alt="Payment QR" class="w-40 h-40 mx-auto rounded-2xl shadow-sm">
-                <p class="text-[11px] font-mono text-gray-500 mt-2">UPI: abhishek@upi</p>
+            <!-- Dynamic Amount QR Code -->
+            <div class="bg-white p-3 rounded-2xl inline-block border-2 border-amber-500 shadow-md">
+                <img id="paymentQrImg" src="" alt="Payment QR" class="w-36 h-36 mx-auto">
+                <p class="text-[10px] font-mono text-gray-700 font-bold mt-1">UPI: abhishek@upi</p>
             </div>
 
-            <div class="text-left bg-amber-500/10 p-3 rounded-2xl border border-amber-500/20 text-xs space-y-1">
-                <p class="font-bold text-amber-600 dark:text-amber-400">✨ Instant Equip & Unlock:</p>
-                <p class="text-gray-600 dark:text-gray-300">• All Videos, Notes, Tests & Live Class Unlock</p>
-                <p class="text-gray-600 dark:text-gray-300">• Instant Bonus Points in Leaderboard</p>
-                <p class="text-gray-600 dark:text-gray-300">• Linked directly to your App ID</p>
+            <!-- UTR Number Input Box -->
+            <div class="text-left bg-gray-50 dark:bg-gray-900 p-3.5 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-2">
+                <label class="block text-[11px] font-bold text-amber-500">
+                    <i class="fas fa-receipt mr-1"></i> Step 2: Payment ke baad 12-Digit UTR Number dalein:
+                </label>
+                <input type="text" id="utrInput" maxlength="16" placeholder="e.g. 432198765432" 
+                       class="w-full p-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-xs font-mono tracking-wider focus:outline-none focus:ring-2 focus:ring-amber-500">
+                <p class="text-[10px] text-gray-400 leading-relaxed">
+                    UTR submit karne ke baad Admin Firebase se verify karke <b>"ok"</b> karega, aur aapka batch unlock ho jayega.
+                </p>
             </div>
 
-            <button onclick="confirmBatchPurchase()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl shadow">
-                Confirm Payment & Equip Batch
+            <button onclick="submitUtrForVerification()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-2xl shadow-lg transition transform active:scale-95">
+                Submit UTR for Verification
+            </button>
+        </div>
+    </div>
+
+    <!-- APP USER SYNC MODAL (ONLY IF ANDROID BRIDGE PARAMS NOT FOUND) -->
+    <div id="syncIdModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4 border border-amber-500/40 shadow-2xl">
+            <div class="w-14 h-14 rounded-full bg-amber-500/15 text-amber-500 flex items-center justify-center text-2xl mx-auto">
+                <i class="fas fa-user-check"></i>
+            </div>
+            <h3 class="text-base font-bold">Verify Your App Account</h3>
+            <p class="text-xs text-gray-400">Apni App login wali Gmail ID dalein taaki aapka naam aur batch data automatic sync ho jaye:</p>
+            <input type="email" id="manualSyncEmail" placeholder="Apni App Gmail ID dalein..." 
+                   class="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-xs">
+            <button onclick="syncUserFromFirebaseByEmail()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow">
+                Sync My Account
             </button>
         </div>
     </div>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toastMsg" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white border border-amber-500 px-4 py-2 rounded-full text-xs font-bold shadow-xl"></div>
+    <div id="toastMsg" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white border border-amber-500 px-4 py-2 rounded-full text-xs font-bold shadow-xl text-center max-w-[90%]"></div>
 
     <!-- MAIN APP JAVASCRIPT LOGIC -->
     <script>
@@ -439,62 +428,65 @@
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
+        const auth = firebase.auth();
         const database = firebase.database();
 
+        // Study with Abhishek Official Channel ID (@studywithabhishek-z8d)
+        const YOUTUBE_CHANNEL_ID = "UCqJ6-1h9k1p_yD02w2u_v2w"; 
         let currentUser = null;
         let userDbKey = '';
         let selectedBatch = '';
         let selectedBatchPrice = 0;
+        let activeSeriesFilter = 'ALL';
 
-        // Study with Abhishek Channel Real Videos (Auto Thumbnail + Direct YT Open)
-        const channelDefaultLectures = [
+        // Curated & Auto-Categorized Channel Videos (Fallback + Live RSS Merge)
+        const baseChannelVideos = [
             {
                 ytId: "QUjW8GWZWFU",
                 title: "B.Sc. Nursing 1st Sem Digestive System #oneshot by Abhishek Sir",
-                subject: "Anatomy & Physiology • 47 Min"
+                published: "2025-02-27"
             },
             {
                 ytId: "Z8TRbAXCWTc",
                 title: "B.Sc. Nursing 1st Sem Renal System by Abhishek Sir",
-                subject: "Anatomy & Physiology • 23 Min"
+                published: "2025-02-28"
             },
             {
                 ytId: "ryXEYVhZCJM",
                 title: "B.Sc. Nursing 1st Sem Psychology #Unit1 by Abhishek Sharma Sir",
-                subject: "Applied Psychology • 22 Min"
+                published: "2025-02-13"
             },
             {
                 ytId: "YAHex0M5PEc",
-                title: "B.Sc. Nursing 2nd Sem Complete Syllabus #oneshot",
-                subject: "2nd Semester Guide • 13 Min"
+                title: "B.Sc. Nursing 2nd Sem Complete Syllabus by Abhishek Sharma Sir #oneshot",
+                published: "2025-02-15"
             },
             {
                 ytId: "_zVoAqHOUOE",
-                title: "B.Sc. Nursing 3rd Semester Complete Syllabus",
-                subject: "3rd Semester Guide • 10 Min"
+                title: "B.Sc. Nursing 3rd Semester Syllabus by Abhishek Sharma Sir #syllabus",
+                published: "2025-02-16"
             }
         ];
 
-        let appLectures = [...channelDefaultLectures];
+        let allChannelVideos = [...baseChannelVideos];
         let appNotes = [
-            { title: "Digestive System & Renal System Handwritten Notes", subject: "B.Sc. Nursing 1st Sem", link: "https://abhishekclasses-hub.github.io/AbhishekClasses-Hub/" },
-            { title: "Applied Psychology Unit-1 Complete PDF", subject: "B.Sc. Nursing 1st Sem", link: "https://abhishekclasses-hub.github.io/AbhishekClasses-Hub/" }
+            { title: "B.Sc. Nursing 1st Sem - Digestive & Renal System PDF", subject: "1st Semester", link: "https://abhishekclasses-hub.github.io/AbhishekClasses-Hub/" },
+            { title: "Applied Psychology Unit-1 Handwritten Notes", subject: "1st Semester", link: "https://abhishekclasses-hub.github.io/AbhishekClasses-Hub/" },
+            { title: "2nd & 3rd Semester Complete Syllabus Roadmap", subject: "Syllabus Guide", link: "https://abhishekclasses-hub.github.io/AbhishekClasses-Hub/" }
         ];
+
         const sampleMcqs = [
             {
-                id: "q1",
                 question: "Normal adult resting heart rate kitna hota hai?",
                 options: ["40 - 60 bpm", "60 - 100 bpm", "100 - 120 bpm", "120 - 140 bpm"],
                 answer: 1
             },
             {
-                id: "q2",
                 question: "Kidney ki structural aur functional unit kaunsi hoti hai?",
                 options: ["Neuron", "Nephron", "Alveoli", "Hepatocyte"],
                 answer: 1
             },
             {
-                id: "q3",
                 question: "Digestive system me maximum nutrient absorption kahan hota hai?",
                 options: ["Stomach", "Small Intestine", "Large Intestine", "Esophagus"],
                 answer: 1
@@ -505,7 +497,7 @@
             const toast = document.getElementById('toastMsg');
             toast.textContent = msg;
             toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 3000);
+            setTimeout(() => toast.classList.add('hidden'), 3500);
         }
 
         function toggleTheme() {
@@ -514,11 +506,9 @@
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 themeIcon.className = 'fas fa-moon text-sm text-gray-700';
-                localStorage.setItem('theme', 'light');
             } else {
                 html.classList.add('dark');
                 themeIcon.className = 'fas fa-sun text-sm text-amber-400';
-                localStorage.setItem('theme', 'dark');
             }
         }
 
@@ -537,59 +527,218 @@
             window.scrollTo(0, 0);
         }
 
-        // ==========================================
-        // 1. AUTO DETECT LOGIN ID FROM ANDROID APP
-        // ==========================================
-        function detectAppLoginUser() {
+        // ==========================================================
+        // 1. STRONG ANDROID APP LOGIN DETECTION (NAME + EMAIL + UID)
+        // ==========================================================
+        function initAppUserDetection() {
             const urlParams = new URLSearchParams(window.location.search);
-            let appEmail = urlParams.get('email') || urlParams.get('user') || urlParams.get('id');
-            let appName = urlParams.get('name');
-            let appUid = urlParams.get('uid');
+            let appEmail = urlParams.get('email') || urlParams.get('user') || urlParams.get('gmail');
+            let appName = urlParams.get('name') || urlParams.get('username') || urlParams.get('fullName');
+            let appUid = urlParams.get('uid') || urlParams.get('userId');
 
-            // Check Android JavascriptInterface if injected by Android Studio
-            if (!appEmail && window.AndroidBridge && typeof window.AndroidBridge.getUserEmail === 'function') {
-                appEmail = window.AndroidBridge.getUserEmail();
-                if (typeof window.AndroidBridge.getUserName === 'function') {
-                    appName = window.AndroidBridge.getUserName();
-                }
+            // 1. Check Android JavascriptInterface (Multiple common method names supported)
+            if (window.AndroidBridge) {
+                if (!appEmail && typeof window.AndroidBridge.getUserEmail === 'function') appEmail = window.AndroidBridge.getUserEmail();
+                if (!appEmail && typeof window.AndroidBridge.getEmail === 'function') appEmail = window.AndroidBridge.getEmail();
+                if (!appName && typeof window.AndroidBridge.getUserName === 'function') appName = window.AndroidBridge.getUserName();
+                if (!appName && typeof window.AndroidBridge.getName === 'function') appName = window.AndroidBridge.getName();
+                if (!appUid && typeof window.AndroidBridge.getUserId === 'function') appUid = window.AndroidBridge.getUserId();
+            }
+            if (window.Android && !appEmail) {
+                if (typeof window.Android.getUserEmail === 'function') appEmail = window.Android.getUserEmail();
+                if (typeof window.Android.getUserName === 'function') appName = window.Android.getUserName();
             }
 
-            // Fallback to saved session if opened without params
-            if (!appEmail) {
-                const cached = localStorage.getItem('appDetectedUser');
-                if (cached) {
-                    const parsed = JSON.parse(cached);
-                    appEmail = parsed.email;
-                    appName = parsed.name;
-                    appUid = parsed.uid;
+            // 2. Check if Firebase Auth session already exists in WebView
+            auth.onAuthStateChanged(fbUser => {
+                if (fbUser && !appEmail) {
+                    appEmail = fbUser.email;
+                    appName = fbUser.displayName || appName;
+                    appUid = fbUser.uid;
+                }
+
+                if (appEmail) {
+                    connectUserToFirebase(appEmail, appName, appUid);
                 } else {
-                    appEmail = "student@app.com";
-                    appName = "App Student";
+                    const cached = localStorage.getItem('abhishekAppUser');
+                    if (cached) {
+                        const parsed = JSON.parse(cached);
+                        connectUserToFirebase(parsed.email, parsed.name, parsed.uid);
+                    } else {
+                        // Show clean 1-time Email Sync modal if Android didn't pass params
+                        document.getElementById('syncIdModal').classList.remove('hidden');
+                    }
                 }
+            });
+        }
+
+        // Exposed global function so Android Studio can also call: webView.evaluateJavascript("setAppUser('email','name','uid')", null)
+        window.setAppUser = function(email, name, uid) {
+            if (email) {
+                document.getElementById('syncIdModal').classList.add('hidden');
+                connectUserToFirebase(email, name, uid);
+            }
+        };
+
+        async function syncUserFromFirebaseByEmail() {
+            const email = document.getElementById('manualSyncEmail').value.trim().toLowerCase();
+            if (!email || !email.includes('@')) {
+                alert('Kripya apni sahi Gmail ID dalein!');
+                return;
+            }
+            document.getElementById('syncIdModal').classList.add('hidden');
+            connectUserToFirebase(email, '', '');
+        }
+
+        async function connectUserToFirebase(email, passedName, passedUid) {
+            const cleanEmail = email.trim().toLowerCase();
+            const emailKey = cleanEmail.replace(/[^a-zA-Z0-9]/g, "_");
+            userDbKey = passedUid || emailKey;
+
+            // Search existing user profile in 'users', 'custom_users', or 'app_users' so exact registered Name is fetched!
+            let resolvedName = passedName;
+            if (!resolvedName) {
+                try {
+                    const customSnap = await database.ref('custom_users/' + emailKey).once('value');
+                    if (customSnap.exists() && customSnap.val().name) {
+                        resolvedName = customSnap.val().name;
+                    } else {
+                        const usersSnap = await database.ref('users').orderByChild('email').equalTo(cleanEmail).once('value');
+                        if (usersSnap.exists()) {
+                            const firstUser = Object.values(usersSnap.val())[0];
+                            if (firstUser && firstUser.name) resolvedName = firstUser.name;
+                        }
+                    }
+                } catch (e) { console.log("Name lookup fallback:", e); }
             }
 
-            userDbKey = (appUid || appEmail).replace(/[^a-zA-Z0-9]/g, "_");
-            const defaultName = appName || appEmail.split('@')[0];
+            if (!resolvedName) {
+                resolvedName = cleanEmail.split('@')[0].replace(/[0-9._]/g, ' ').trim() || 'Student';
+                resolvedName = resolvedName.charAt(0).toUpperCase() + resolvedName.slice(1);
+            }
 
-            // Sync with Firebase Realtime Database
             const userRef = database.ref('app_users/' + userDbKey);
             userRef.on('value', snapshot => {
                 let data = snapshot.val();
                 if (!data) {
                     data = {
-                        name: defaultName,
-                        email: appEmail,
+                        uid: userDbKey,
+                        name: resolvedName,
+                        email: cleanEmail,
                         batch: 'Free Tier',
                         score: 0,
-                        completedItems: 0,
                         muted: false,
-                        lastLogin: new Date().toISOString()
+                        joinedAt: new Date().toISOString()
                     };
                     userRef.set(data);
+                } else {
+                    // Always keep name updated if Android passed a real name
+                    if (passedName && data.name !== passedName) {
+                        userRef.update({ name: passedName });
+                        data.name = passedName;
+                    }
                 }
                 currentUser = data;
-                localStorage.setItem('appDetectedUser', JSON.stringify(data));
+                localStorage.setItem('abhishekAppUser', JSON.stringify(data));
                 updateUIWithUser(data);
+                listenToUserPaymentStatus(userDbKey);
+            });
+        }
+
+        // ==========================================================
+        // 2. UTR PAYMENT & ADMIN "OK" APPROVAL LISTENER
+        // ==========================================================
+        function openBuyModal(batchName, price) {
+            selectedBatch = batchName;
+            selectedBatchPrice = price;
+            document.getElementById('buyModalTitle').textContent = `Enroll in ${batchName} (₹${price})`;
+            const upiData = encodeURIComponent(`upi://pay?pa=abhishek@upi&pn=StudyWithAbhishek&am=${price}&cu=INR`);
+            document.getElementById('paymentQrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${upiData}`;
+            document.getElementById('utrInput').value = '';
+            document.getElementById('buyModal').classList.remove('hidden');
+        }
+
+        function closeBuyModal() {
+            document.getElementById('buyModal').classList.add('hidden');
+        }
+
+        function submitUtrForVerification() {
+            const utr = document.getElementById('utrInput').value.trim();
+            if (utr.length < 8) {
+                alert('Kripya valid 12-digit UTR / Transaction Reference Number dalein!');
+                return;
+            }
+            if (!currentUser || !userDbKey) return;
+
+            const requestData = {
+                uid: userDbKey,
+                studentName: currentUser.name,
+                email: currentUser.email,
+                batch: selectedBatch,
+                amount: selectedBatchPrice,
+                utr: utr,
+                status: 'pending', // Admin Firebase me isko 'ok' karega tab approve hoga
+                submittedAt: new Date().toISOString()
+            };
+
+            // Save in payment_requests/{userDbKey} so Admin can easily find and type "ok"
+            database.ref('payment_requests/' + userDbKey).set(requestData);
+            closeBuyModal();
+            showToast('✅ UTR Submitted! Admin ke "ok" karte hi batch unlock ho jayega.');
+        }
+
+        function listenToUserPaymentStatus(uid) {
+            database.ref('payment_requests/' + uid).on('value', snapshot => {
+                const req = snapshot.val();
+                const pendingCard = document.getElementById('pendingUtrCard');
+                const bannerEl = document.getElementById('batchStatusBanner');
+
+                if (!req) {
+                    pendingCard.classList.add('hidden');
+                    return;
+                }
+
+                const statusLower = (req.status || '').toString().trim().toLowerCase();
+
+                // Admin ne Firebase me 'ok' ya 'approved' likh diya hai!
+                if (statusLower === 'ok' || statusLower === 'approved') {
+                    pendingCard.classList.add('hidden');
+                    if (currentUser && currentUser.batch !== req.batch) {
+                        const bonus = req.batch === 'Alpha+' ? 150 : 50;
+                        database.ref('app_users/' + uid).update({
+                            batch: req.batch,
+                            score: (currentUser.score || 0) + bonus,
+                            approvedUtr: req.utr
+                        });
+                        showToast(`🎉 Payment Approved! ${req.batch} Batch Equipped (+${bonus} Pts)!`);
+                        // Auto-sync all YouTube channel videos upon batch unlock
+                        syncYouTubeChannelVideos(false);
+                    }
+                } else if (statusLower === 'pending') {
+                    pendingCard.classList.remove('hidden');
+                    document.getElementById('pendingBatchName').textContent = req.batch;
+                    document.getElementById('pendingUtrNumber').textContent = req.utr;
+                    bannerEl.innerHTML = `
+                        <div onclick="switchTab('courses')" class="cursor-pointer bg-amber-500/15 border border-amber-500/40 rounded-2xl p-3.5 flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0">
+                                    <i class="fas fa-hourglass-half"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold text-amber-500">UTR Verification Pending (${req.batch})</h4>
+                                    <p class="text-[10px] text-gray-400">UTR: ${req.utr} • Waiting for Admin Approval</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (statusLower === 'rejected') {
+                    pendingCard.classList.add('hidden');
+                    bannerEl.innerHTML = `
+                        <div onclick="switchTab('courses')" class="cursor-pointer bg-red-500/15 border border-red-500/40 rounded-2xl p-3.5 text-xs text-red-400 font-bold">
+                            ❌ UTR (${req.utr}) Rejected by Admin. Dobara sahi UTR dalein.
+                        </div>
+                    `;
+                }
             });
         }
 
@@ -600,14 +749,13 @@
         function updateUIWithUser(user) {
             const hasBatch = isBatchPurchased();
 
-            // Header & Home Info
-            document.getElementById('headerUserBadge').textContent = user.email;
+            document.getElementById('headerUserBadge').textContent = `${user.name} (${user.email})`;
             document.getElementById('headerPoints').textContent = user.score || 0;
             document.getElementById('homeWelcomeText').textContent = `Hi, ${user.name}!`;
+            document.getElementById('homeSubEmail').textContent = user.email;
             document.getElementById('homeBatchBadge').textContent = user.batch || 'Free Tier';
-            document.getElementById('activeBatchTag').textContent = `Current: ${user.batch || 'Free Tier'}`;
+            document.getElementById('activeBatchTag').textContent = `Active: ${user.batch || 'Free Tier'}`;
 
-            // Profile Info
             document.getElementById('profileName').textContent = user.name;
             document.getElementById('profileEmail').textContent = user.email;
             document.getElementById('profileBatch').textContent = user.batch || 'Free Tier';
@@ -618,18 +766,41 @@
             document.getElementById('progressBarText').textContent = `${progress}%`;
             document.getElementById('progressBarFill').style.width = `${progress}%`;
 
-            // Show/Hide Lock Badges & Free Tier Alert
-            const alertBox = document.getElementById('freeTierAlert');
+            const bannerEl = document.getElementById('batchStatusBanner');
             const lockBadges = document.querySelectorAll('.lock-badge');
+
             if (hasBatch) {
-                alertBox.classList.add('hidden');
                 lockBadges.forEach(b => b.classList.add('hidden'));
+                bannerEl.innerHTML = `
+                    <div class="bg-green-500/10 border border-green-500/30 rounded-2xl p-3 flex items-center justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <i class="fas fa-check-circle text-green-500 text-lg"></i>
+                            <div>
+                                <h4 class="text-xs font-bold text-green-500">${user.batch} Batch Equipped & Active</h4>
+                                <p class="text-[10px] text-gray-400">All YouTube Series, Notes & Tests Unlocked</p>
+                            </div>
+                        </div>
+                        <button onclick="switchTab('videos')" class="px-3 py-1 bg-green-600 text-white text-[10px] font-bold rounded-xl">Study Now</button>
+                    </div>
+                `;
             } else {
-                alertBox.classList.remove('hidden');
                 lockBadges.forEach(b => b.classList.remove('hidden'));
+                bannerEl.innerHTML = `
+                    <div onclick="switchTab('courses')" class="cursor-pointer bg-red-500/10 border border-red-500/30 rounded-2xl p-3.5 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-xl bg-red-500 text-white flex items-center justify-center shrink-0">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-red-500">Batch Not Purchased!</h4>
+                                <p class="text-[10px] text-gray-400">QR Scan karke UTR dalein aur saari Video Series unlock karein.</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-amber-500 shrink-0 ml-2">Buy <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                `;
             }
 
-            // Update Batch Buy Buttons
             if (user.batch === 'Alpha') {
                 document.getElementById('btnBuyAlpha').textContent = '✓ Equipped (Active Batch)';
                 document.getElementById('btnBuyAlpha').className = 'w-full py-3 bg-green-600 text-white font-bold rounded-2xl shadow';
@@ -638,80 +809,104 @@
                 document.getElementById('btnBuyAlphaPlus').className = 'w-full py-3 bg-green-600 text-white font-bold rounded-2xl shadow';
             }
 
-            // Re-render gated sections
-            renderLectures();
+            renderSeriesAndVideos();
             renderNotes();
             renderMcqs();
             renderLiveClass();
             renderDoubtSection();
         }
 
-        // ==========================================
-        // 2. POINTS SYSTEM
-        // ==========================================
-        function addPoints(points, reason) {
-            if (!userDbKey || !currentUser) return;
-            const newScore = (currentUser.score || 0) + points;
-            database.ref('app_users/' + userDbKey).update({ score: newScore });
-            showToast(`+${points} Points Earned! (${reason})`);
-        }
+        // ==========================================================
+        // 3. AUTO-FETCH YOUTUBE VIDEOS & ORGANIZE SERIES-WISE
+        // ==========================================================
+        async function syncYouTubeChannelVideos(manualClick = false) {
+            const spinIcon = document.getElementById('syncSpinIcon');
+            if (spinIcon) spinIcon.classList.add('fa-spin');
 
-        // ==========================================
-        // 3. YOUTUBE LINK -> THUMBNAIL -> CLICK TO YT
-        // ==========================================
-        function extractYouTubeId(url) {
-            if (!url) return null;
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
+            try {
+                // Fetch live RSS feed of @studywithabhishek-z8d via rss2json
+                const rssUrl = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?user=studywithabhishek-z8d`);
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+                const data = await res.json();
 
-        function toggleAddVideoForm() {
-            document.getElementById('addVideoBox').classList.toggle('hidden');
-        }
+                let fetched = [];
+                if (data && data.status === 'ok' && Array.isArray(data.items)) {
+                    fetched = data.items.map(item => {
+                        const vidMatch = item.link.match(/v=([^&]+)/);
+                        return {
+                            ytId: vidMatch ? vidMatch[1] : '',
+                            title: item.title,
+                            published: item.pubDate
+                        };
+                    }).filter(v => v.ytId);
+                }
 
-        function previewYtThumbnail(url) {
-            const ytId = extractYouTubeId(url);
-            const previewContainer = document.getElementById('ytPreviewContainer');
-            const previewImg = document.getElementById('ytPreviewImg');
-            if (ytId) {
-                previewImg.src = `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`;
-                previewContainer.classList.remove('hidden');
-            } else {
-                previewContainer.classList.add('hidden');
+                // Merge with base channel videos (avoiding duplicates)
+                const mergedMap = new Map();
+                [...baseChannelVideos, ...fetched].forEach(v => {
+                    mergedMap.set(v.ytId, v);
+                });
+                allChannelVideos = Array.from(mergedMap.values());
+
+                if (manualClick) showToast(`✅ ${allChannelVideos.length} Channel Videos Synced & Organized!`);
+            } catch (err) {
+                console.log("Using cached channel videos:", err);
+            } finally {
+                if (spinIcon) spinIcon.classList.remove('fa-spin');
+                renderSeriesAndVideos();
             }
         }
 
-        function saveYtVideoLink() {
-            const title = document.getElementById('ytTitleInput').value.trim();
-            const subject = document.getElementById('ytSubjectInput').value.trim() || 'Study with Abhishek';
-            const link = document.getElementById('ytLinkInput').value.trim();
-            const ytId = extractYouTubeId(link);
+        // Smart Categorizer: Arranges videos into clean Series Categories & proper Part/Unit order
+        function categorizeVideosIntoSeries(videos) {
+            const seriesGroups = {
+                "B.Sc. Nursing 1st Semester": [],
+                "B.Sc. Nursing 2nd Semester": [],
+                "B.Sc. Nursing 3rd Semester": [],
+                "NORCET & Special Marathon": []
+            };
 
-            if (!title || !ytId) {
-                alert('Kripya sahi Video Title aur valid YouTube Link dalein!');
-                return;
-            }
-
-            database.ref('lectures').push({
-                title: title,
-                subject: subject,
-                ytId: ytId,
-                ytUrl: `https://www.youtube.com/watch?v=${ytId}`,
-                createdAt: new Date().toISOString()
+            videos.forEach(v => {
+                const t = v.title.toLowerCase();
+                if (t.includes('1st sem') || t.includes('first sem') || t.includes('digestive') || t.includes('renal') || t.includes('psychology')) {
+                    seriesGroups["B.Sc. Nursing 1st Semester"].push(v);
+                } else if (t.includes('2nd sem') || t.includes('second sem')) {
+                    seriesGroups["B.Sc. Nursing 2nd Semester"].push(v);
+                } else if (t.includes('3rd sem') || t.includes('third sem')) {
+                    seriesGroups["B.Sc. Nursing 3rd Semester"].push(v);
+                } else {
+                    seriesGroups["NORCET & Special Marathon"].push(v);
+                }
             });
 
-            document.getElementById('ytTitleInput').value = '';
-            document.getElementById('ytSubjectInput').value = '';
-            document.getElementById('ytLinkInput').value = '';
-            document.getElementById('ytPreviewContainer').classList.add('hidden');
-            document.getElementById('addVideoBox').classList.add('hidden');
-            showToast('YouTube Video Linked Successfully!');
+            // Sort each series in proper logical sequence (Unit 1 -> Unit 2 -> Part 1 -> Oneshot -> Syllabus)
+            Object.keys(seriesGroups).forEach(cat => {
+                seriesGroups[cat].sort((a, b) => {
+                    const getOrderWeight = (title) => {
+                        const lower = title.toLowerCase();
+                        const unitMatch = lower.match(/unit\s*#?(\d+)/);
+                        if (unitMatch) return parseInt(unitMatch[1]);
+                        const partMatch = lower.match(/part\s*#?(\d+)/);
+                        if (partMatch) return parseInt(partMatch[1]) + 10;
+                        if (lower.includes('syllabus')) return 1;
+                        if (lower.includes('oneshot')) return 50;
+                        return 30;
+                    };
+                    return getOrderWeight(a.title) - getOrderWeight(b.title);
+                });
+            });
+
+            return seriesGroups;
+        }
+
+        function setSeriesFilter(category) {
+            activeSeriesFilter = category;
+            renderSeriesAndVideos();
         }
 
         function openYouTubeVideo(ytId) {
             if (!isBatchPurchased()) {
-                showToast('🔒 Pehle Batch Buy karein!');
+                showToast('🔒 Pehle Batch Buy karein aur UTR verify karwayein!');
                 switchTab('courses');
                 return;
             }
@@ -719,48 +914,117 @@
             window.open(`https://www.youtube.com/watch?v=${ytId}`, '_blank');
         }
 
-        function renderLectures() {
+        function renderSeriesAndVideos() {
             const unlocked = isBatchPurchased();
-            const cardsHtml = appLectures.map(item => {
-                const thumbUrl = `https://i.ytimg.com/vi/${item.ytId}/hqdefault.jpg`;
-                return `
-                <div onclick="openYouTubeVideo('${item.ytId}')" 
-                     class="cursor-pointer group bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:border-amber-500 transition">
-                    <!-- YouTube Thumbnail -->
-                    <div class="relative aspect-video w-full bg-black overflow-hidden">
-                        <img src="${thumbUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 ${!unlocked ? 'opacity-60' : ''}">
-                        <div class="absolute inset-0 bg-black/25 flex items-center justify-center">
-                            ${unlocked 
-                                ? `<div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                                     <i class="fas fa-play text-base ml-0.5"></i>
-                                   </div>`
-                                : `<div class="px-3 py-1.5 rounded-full bg-black/85 text-amber-400 text-xs font-bold border border-amber-500/40 flex items-center space-x-1.5">
-                                     <i class="fas fa-lock"></i> <span>Buy Batch to Watch</span>
-                                   </div>`
-                            }
-                        </div>
-                        <span class="absolute bottom-2 right-2 bg-black/85 text-white text-[10px] px-2 py-0.5 rounded-md font-semibold">
-                            <i class="fab fa-youtube text-red-500 mr-1"></i> Watch on YouTube
-                        </span>
-                    </div>
-                    <!-- Video Details -->
-                    <div class="p-3.5 flex items-center justify-between">
-                        <div class="pr-2">
-                            <h4 class="font-bold text-xs text-gray-900 dark:text-white line-clamp-2">${item.title}</h4>
-                            <p class="text-[10px] text-gray-400 mt-1">${item.subject || 'Study with Abhishek'} • <span class="text-green-500 font-semibold">+10 Pts</span></p>
-                        </div>
-                        <i class="fas fa-external-link-alt text-xs text-amber-500 shrink-0"></i>
-                    </div>
-                </div>
-            `}).join('');
+            const grouped = categorizeVideosIntoSeries(allChannelVideos);
+            const categories = Object.keys(grouped).filter(c => grouped[c].length > 0);
 
-            document.getElementById('homeLecturesList').innerHTML = cardsHtml;
-            document.getElementById('videoLecturesList').innerHTML = cardsHtml;
+            // 1. Render Home Series Preview Cards (Clean Folder Style)
+            const homePreviewEl = document.getElementById('homeSeriesPreview');
+            if (homePreviewEl) {
+                homePreviewEl.innerHTML = categories.map((cat, idx) => {
+                    const count = grouped[cat].length;
+                    const firstThumb = `https://i.ytimg.com/vi/${grouped[cat][0].ytId}/hqdefault.jpg`;
+                    return `
+                        <div onclick="setSeriesFilter('${cat}'); switchTab('videos')" 
+                             class="cursor-pointer bg-white dark:bg-gray-800 p-3 rounded-2xl border border-gray-200 dark:border-gray-700 flex items-center justify-between shadow-sm hover:border-amber-500 transition">
+                            <div class="flex items-center space-x-3">
+                                <div class="relative w-16 h-12 rounded-xl overflow-hidden bg-black shrink-0">
+                                    <img src="${firstThumb}" class="w-full h-full object-cover">
+                                    <span class="absolute bottom-0.5 right-0.5 bg-black/80 text-white text-[8px] px-1 rounded font-bold">${count} Vid</span>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] font-bold text-amber-500 uppercase">Series 0${idx + 1}</span>
+                                    <h4 class="font-bold text-xs text-gray-900 dark:text-white">${cat}</h4>
+                                    <p class="text-[10px] text-gray-400">${count} Organized Lectures</p>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center">
+                                <i class="fas ${unlocked ? 'fa-play text-xs' : 'fa-lock text-xs'}"></i>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // 2. Render Horizontal Series Filter Pills
+            const filterBar = document.getElementById('seriesFilterBar');
+            if (filterBar) {
+                const pills = ['ALL', ...categories];
+                filterBar.innerHTML = pills.map(p => `
+                    <button onclick="setSeriesFilter('${p}')" 
+                            class="px-3.5 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap transition ${activeSeriesFilter === p ? 'bg-amber-500 text-white shadow' : 'bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700'}">
+                        ${p === 'ALL' ? 'All Series (' + allChannelVideos.length + ')' : p}
+                    </button>
+                `).join('');
+            }
+
+            // 3. Render Series-Wise Video Playlists
+            const container = document.getElementById('videoSeriesContainer');
+            if (!container) return;
+
+            const displayCats = activeSeriesFilter === 'ALL' ? categories : categories.filter(c => c === activeSeriesFilter);
+
+            container.innerHTML = displayCats.map((cat, sIdx) => {
+                const vids = grouped[cat];
+                return `
+                    <div class="bg-white dark:bg-gray-800 rounded-3xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-2.5">
+                            <div>
+                                <span class="text-[10px] font-bold text-amber-500 uppercase tracking-wider">Series ${sIdx + 1}</span>
+                                <h3 class="font-extrabold text-sm text-gray-900 dark:text-white">${cat}</h3>
+                            </div>
+                            <span class="bg-amber-500/15 text-amber-500 text-[10px] font-bold px-2.5 py-1 rounded-full">
+                                ${vids.length} Lectures
+                            </span>
+                        </div>
+
+                        <div class="space-y-3">
+                            ${vids.map((item, vIdx) => {
+                                const thumbUrl = `https://i.ytimg.com/vi/${item.ytId}/hqdefault.jpg`;
+                                return `
+                                    <div onclick="openYouTubeVideo('${item.ytId}')" 
+                                         class="cursor-pointer group flex items-center space-x-3 p-2 rounded-2xl bg-gray-50 dark:bg-gray-900/70 border border-transparent hover:border-amber-500 transition">
+                                        <!-- Thumbnail with Episode Badge -->
+                                        <div class="relative w-28 aspect-video rounded-xl overflow-hidden bg-black shrink-0">
+                                            <img src="${thumbUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition ${!unlocked ? 'opacity-50' : ''}">
+                                            <span class="absolute top-1 left-1 bg-black/80 text-amber-400 text-[9px] font-bold px-1.5 py-0.5 rounded">
+                                                #${vIdx + 1}
+                                            </span>
+                                            <div class="absolute inset-0 flex items-center justify-center bg-black/25">
+                                                <div class="w-7 h-7 rounded-full ${unlocked ? 'bg-red-600' : 'bg-gray-900/90 border border-amber-500'} text-white flex items-center justify-center text-[10px] shadow">
+                                                    <i class="fas ${unlocked ? 'fa-play ml-0.5' : 'fa-lock text-amber-400'}"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Video Info -->
+                                        <div class="flex-1 min-w-0">
+                                            <h4 class="font-bold text-xs text-gray-900 dark:text-white line-clamp-2 leading-snug">${item.title}</h4>
+                                            <div class="flex items-center space-x-2 mt-1.5">
+                                                <span class="text-[10px] text-red-500 font-semibold"><i class="fab fa-youtube mr-0.5"></i> Watch YT</span>
+                                                <span class="text-[10px] text-green-500 font-bold">• +10 Pts</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        // ==========================================
-        // 4. BATCH GATED LOCK SCREEN HELPER
-        // ==========================================
+        // ==========================================================
+        // 4. POINTS, NOTES, MCQ, LIVE CLASS, DOUBTS & LEADERBOARD
+        // ==========================================================
+        function addPoints(points, reason) {
+            if (!userDbKey || !currentUser) return;
+            const newScore = (currentUser.score || 0) + points;
+            database.ref('app_users/' + userDbKey).update({ score: newScore });
+            showToast(`+${points} Points Earned! (${reason})`);
+        }
+
         function getLockedScreenHtml(featureName) {
             return `
                 <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 border border-amber-500/30 text-center space-y-3 shadow-sm">
@@ -768,20 +1032,12 @@
                         <i class="fas fa-lock"></i>
                     </div>
                     <h3 class="font-bold text-base">${featureName} Locked</h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Ye feature sirf <b>Alpha</b> ya <b>Alpha+</b> batch students ke liye equipped hai.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Batch buy karke apna <b>UTR Number</b> submit karein. Admin approval ke turant baad unlock ho jayega.</p>
                     <button onclick="switchTab('courses')" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow">
-                        Unlock Now (Starting ₹199)
+                        Select Batch (Starting ₹199)
                     </button>
                 </div>
             `;
-        }
-
-        // ==========================================
-        // 5. NOTES, MCQ TEST, LIVE CLASS, DOUBTS & LEADERBOARD
-        // ==========================================
-        function downloadNote(link) {
-            addPoints(5, 'Downloaded Notes');
-            window.open(link, '_blank');
         }
 
         function renderNotes() {
@@ -797,10 +1053,10 @@
                         </div>
                         <div>
                             <h4 class="font-bold text-xs text-gray-900 dark:text-white">${item.title}</h4>
-                            <p class="text-[10px] text-gray-400">${item.subject || 'PDF Document'}</p>
+                            <p class="text-[10px] text-gray-400">${item.subject}</p>
                         </div>
                     </div>
-                    <button onclick="downloadNote('${item.link || '#'}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[10px] font-bold shadow">
+                    <button onclick="addPoints(5, 'Downloaded PDF'); window.open('${item.link}', '_blank')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[10px] font-bold shadow">
                         Download
                     </button>
                 </div>
@@ -853,9 +1109,9 @@
                 <div class="aspect-video bg-black rounded-3xl flex items-center justify-center relative overflow-hidden shadow-lg border border-amber-500/40">
                     <div class="text-center text-white p-4 space-y-2">
                         <i class="fas fa-broadcast-tower text-4xl text-amber-500 animate-bounce"></i>
-                        <p class="font-bold text-sm">Live Class Room Ready (${currentUser.batch})</p>
+                        <p class="font-bold text-sm">Live Class Room (${currentUser.batch})</p>
                         <p class="text-xs text-gray-400">Daily Timing: 4:00 PM to 6:00 PM</p>
-                        <button onclick="addPoints(15, 'Joined Live Class'); window.open('https://youtube.com/@studywithabhishek-z8d/live', '_blank')" 
+                        <button onclick="addPoints(15, 'Joined Live'); window.open('https://youtube.com/@studywithabhishek-z8d/live', '_blank')" 
                                 class="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl shadow">
                             Join Live Stream (+15 Pts)
                         </button>
@@ -868,9 +1124,6 @@
             if (!isBatchPurchased()) {
                 document.getElementById('doubtBoxWrapper').innerHTML = getLockedScreenHtml('Personal Doubt Box');
                 return;
-            }
-            if (currentUser && currentUser.muted) {
-                document.getElementById('doubtBoxContainer').innerHTML = '<p class="text-xs text-red-500 font-bold text-center py-4">You have been muted by Admin.</p>';
             }
         }
 
@@ -888,69 +1141,21 @@
             document.getElementById('doubtInput').value = '';
         }
 
-        // ==========================================
-        // 6. BATCH PURCHASE & FIREBASE SYNC
-        // ==========================================
-        function openBuyModal(batchName, price) {
-            selectedBatch = batchName;
-            selectedBatchPrice = price;
-            document.getElementById('buyModalTitle').textContent = `Enroll in ${batchName} (₹${price})`;
-            document.getElementById('buyModal').classList.remove('hidden');
-        }
-        function closeBuyModal() { document.getElementById('buyModal').classList.add('hidden'); }
-        
-        function confirmBatchPurchase() {
-            if (userDbKey && currentUser) {
-                const bonusPoints = selectedBatch === 'Alpha+' ? 150 : 50;
-                const newScore = (currentUser.score || 0) + bonusPoints;
-                database.ref('app_users/' + userDbKey).update({
-                    batch: selectedBatch,
-                    score: newScore,
-                    purchasedAt: new Date().toISOString()
-                });
-                showToast(`🎉 ${selectedBatch} Equipped! +${bonusPoints} Bonus Points!`);
-            }
-            closeBuyModal();
-        }
-
         function triggerAppLogout() {
+            localStorage.removeItem('abhishekAppUser');
             if (window.AndroidBridge && typeof window.AndroidBridge.logout === 'function') {
                 window.AndroidBridge.logout();
+            } else if (window.Android && typeof window.Android.logout === 'function') {
+                window.Android.logout();
             } else {
-                localStorage.removeItem('appDetectedUser');
-                alert('App Logout Triggered! (Android App ke login screen par redirect hoga)');
+                location.reload();
             }
         }
 
-        // Load Cloud Lectures, Notes, Doubts & Live Leaderboard
-        function loadCloudData() {
-            database.ref('lectures').on('value', snapshot => {
-                const data = snapshot.val();
-                if (data) {
-                    const cloudLectures = Object.values(data).reverse();
-                    appLectures = [...cloudLectures, ...channelDefaultLectures];
-                } else {
-                    appLectures = [...channelDefaultLectures];
-                }
-                renderLectures();
-            });
-
-            database.ref('notes').on('value', snapshot => {
-                const data = snapshot.val();
-                if (data) {
-                    appNotes = Object.values(data).reverse();
-                }
-                renderNotes();
-            });
-
-            // Live Leaderboard from app_users
+        function loadCloudLeaderboardAndDoubts() {
             database.ref('app_users').on('value', snapshot => {
                 const usersObj = snapshot.val() || {};
                 const sorted = Object.values(usersObj).sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 15);
-                if (sorted.length === 0) {
-                    document.getElementById('leaderboardList').innerHTML = '<p class="text-xs text-gray-400 text-center py-4">No rankings yet.</p>';
-                    return;
-                }
                 document.getElementById('leaderboardList').innerHTML = sorted.map((u, idx) => `
                     <div class="bg-white dark:bg-gray-800 p-3 rounded-2xl border ${u.email === currentUser?.email ? 'border-amber-500' : 'border-gray-100 dark:border-gray-700'} flex items-center justify-between shadow-sm">
                         <div class="flex items-center space-x-3">
@@ -967,7 +1172,6 @@
                 `).join('');
             });
 
-            // Load User's Doubts
             database.ref('doubts').on('value', snapshot => {
                 const data = snapshot.val();
                 if (!data || !currentUser) return;
@@ -985,8 +1189,9 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            detectAppLoginUser();
-            loadCloudData();
+            initAppUserDetection();
+            syncYouTubeChannelVideos(false);
+            loadCloudLeaderboardAndDoubts();
         });
     </script>
 </body>
