@@ -48,7 +48,7 @@
                 <h1 class="font-bold text-sm leading-tight text-gray-900 dark:text-white flex items-center">
                     Study with Abhishek <i class="fas fa-check-circle text-[11px] ml-1 text-amber-500"></i>
                 </h1>
-                <p id="headerUserBadge" class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-wide truncate max-w-[170px]">Syncing App ID...</p>
+                <p id="headerUserBadge" class="text-[10px] text-amber-600 dark:text-amber-400 font-semibold tracking-wide truncate max-w-[170px]">Syncing Profile...</p>
             </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -74,7 +74,7 @@
                 <div class="relative z-10 max-w-[68%]">
                     <div class="flex items-center space-x-2">
                         <span id="homeBatchBadge" class="bg-black/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Free Tier</span>
-                        <span class="bg-white/20 text-[10px] px-2 py-0.5 rounded-full font-medium"><i class="fas fa-shield-alt mr-1"></i>Verified</span>
+                        <span class="bg-white/20 text-[10px] px-2 py-0.5 rounded-full font-medium"><i class="fas fa-database mr-1"></i>Cloud Synced</span>
                     </div>
                     <h2 id="homeWelcomeText" class="text-lg font-extrabold mt-1.5 leading-snug">Welcome, Student!</h2>
                     <p id="homeSubEmail" class="text-[11px] opacity-90 mt-0.5 truncate">Syncing your learning profile...</p>
@@ -85,7 +85,7 @@
                 </div>
             </div>
 
-            <!-- Payment Status Alert (Free Tier / Pending UTR / Active) -->
+            <!-- Payment Status Alert -->
             <div id="batchStatusBanner"></div>
 
             <!-- Quick Action Grid -->
@@ -163,7 +163,7 @@
                 <span id="activeBatchTag" class="text-xs bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full font-bold">Status: Free Tier</span>
             </div>
 
-            <!-- Pending UTR Status Card (If user submitted UTR and waiting for Admin 'ok') -->
+            <!-- Pending UTR Status Card -->
             <div id="pendingUtrCard" class="hidden bg-amber-500/10 border border-amber-500/40 rounded-3xl p-4 space-y-2">
                 <div class="flex items-center space-x-2 text-amber-500 font-bold text-xs">
                     <i class="fas fa-clock animate-spin"></i>
@@ -172,7 +172,7 @@
                 <p class="text-xs text-gray-600 dark:text-gray-300">
                     Batch: <b id="pendingBatchName">-</b> | UTR: <b id="pendingUtrNumber" class="font-mono text-amber-400">-</b>
                 </p>
-                <p class="text-[11px] text-gray-400">Admin jaise hi Firebase me aapka UTR verify karke <b>"ok"</b> karega, aapka batch aur saari video series turant unlock ho jayengi!</p>
+                <p class="text-[11px] text-gray-400">Admin jaise hi Firebase me aapke naam ke andar status <b>"ok"</b> karega, aapka batch turant unlock ho jayega!</p>
             </div>
 
             <!-- ALPHA BATCH CARD -->
@@ -299,7 +299,7 @@
                 <h3 id="profileName" class="font-bold text-base">Student</h3>
                 <p id="profileEmail" class="text-xs text-gray-500">Syncing ID...</p>
                 <span class="inline-block mt-1.5 px-3 py-0.5 bg-green-500/10 text-green-500 text-[10px] font-bold rounded-full border border-green-500/20">
-                    <i class="fas fa-mobile-alt mr-1"></i> Connected with Android App
+                    <i class="fas fa-database mr-1"></i> Saved under Name in Firebase
                 </span>
                 
                 <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 grid grid-cols-3 gap-2 text-xs">
@@ -328,6 +328,10 @@
                     </div>
                 </div>
             </div>
+
+            <button onclick="switchAccountModal()" class="w-full py-2.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 font-bold rounded-2xl border border-amber-500/30 transition text-xs">
+                <i class="fas fa-exchange-alt mr-1.5"></i> Change / Sync Different Gmail ID
+            </button>
 
             <button onclick="triggerAppLogout()" class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 font-bold rounded-2xl border border-red-500/30 transition text-sm">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout from App
@@ -370,13 +374,11 @@
                 <h3 id="buyModalTitle" class="text-lg font-bold mt-1">Enroll in Batch</h3>
             </div>
             
-            <!-- Dynamic Amount QR Code -->
             <div class="bg-white p-3 rounded-2xl inline-block border-2 border-amber-500 shadow-md">
                 <img id="paymentQrImg" src="" alt="Payment QR" class="w-36 h-36 mx-auto">
                 <p class="text-[10px] font-mono text-gray-700 font-bold mt-1">UPI: abhishek@upi</p>
             </div>
 
-            <!-- UTR Number Input Box -->
             <div class="text-left bg-gray-50 dark:bg-gray-900 p-3.5 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-2">
                 <label class="block text-[11px] font-bold text-amber-500">
                     <i class="fas fa-receipt mr-1"></i> Step 2: Payment ke baad 12-Digit UTR Number dalein:
@@ -384,7 +386,7 @@
                 <input type="text" id="utrInput" maxlength="16" placeholder="e.g. 432198765432" 
                        class="w-full p-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-xs font-mono tracking-wider focus:outline-none focus:ring-2 focus:ring-amber-500">
                 <p class="text-[10px] text-gray-400 leading-relaxed">
-                    UTR submit karne ke baad Admin Firebase se verify karke <b>"ok"</b> karega, aur aapka batch unlock ho jayega.
+                    UTR submit karne ke baad Admin Firebase me aapke naam ke folder me status <b>"ok"</b> karega, aur batch unlock ho jayega.
                 </p>
             </div>
 
@@ -394,18 +396,30 @@
         </div>
     </div>
 
-    <!-- APP USER SYNC MODAL (ONLY IF ANDROID BRIDGE PARAMS NOT FOUND) -->
-    <div id="syncIdModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <!-- INITIAL GMAIL & NAME SYNC MODAL (SAVES ALL USER DATA UNDER THEIR NAME IN FIREBASE) -->
+    <div id="syncIdModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
         <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-sm text-center space-y-4 border border-amber-500/40 shadow-2xl">
-            <div class="w-14 h-14 rounded-full bg-amber-500/15 text-amber-500 flex items-center justify-center text-2xl mx-auto">
-                <i class="fas fa-user-check"></i>
+            <div class="w-16 h-16 rounded-full p-1 bg-amber-500 mx-auto shadow-md overflow-hidden">
+                <img src="https://github.com/abhishekclasses-hub/AbhishekClasses-Hub/blob/main/Study%20with%20Abhishek%20Golden%20Education%20Logo.png?raw=true" class="w-full h-full object-cover rounded-full bg-white">
             </div>
-            <h3 class="text-base font-bold">Verify Your App Account</h3>
-            <p class="text-xs text-gray-400">Apni App login wali Gmail ID dalein taaki aapka naam aur batch data automatic sync ho jaye:</p>
-            <input type="email" id="manualSyncEmail" placeholder="Apni App Gmail ID dalein..." 
-                   class="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-xs">
-            <button onclick="syncUserFromFirebaseByEmail()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow">
-                Sync My Account
+            <div>
+                <h3 class="text-base font-bold text-gray-900 dark:text-white">Sync Your Student Profile</h3>
+                <p class="text-[11px] text-gray-400 mt-1">Apni App login wali Gmail ID dalein—aapke naam ke saath aapka poora data load aur save ho jayega:</p>
+            </div>
+            <div class="space-y-2.5 text-left">
+                <div>
+                    <label class="text-[10px] font-bold text-amber-500 ml-1">App Login Gmail ID *</label>
+                    <input type="email" id="manualSyncEmail" oninput="autoFetchNamePreview(this.value)" placeholder="xyz@gmail.com" 
+                           class="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-amber-500 ml-1">Your Full Name (Firebase Folder Name) *</label>
+                    <input type="text" id="manualSyncName" placeholder="Apna Poora Naam dalein..." 
+                           class="w-full p-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+            </div>
+            <button onclick="syncUserFromFirebaseByEmail()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-lg">
+                Load & Save My Complete Data
             </button>
         </div>
     </div>
@@ -415,6 +429,7 @@
 
     <!-- MAIN APP JAVASCRIPT LOGIC -->
     <script>
+        // Your Exact Firebase Configuration (from screenshot)
         const firebaseConfig = {
             apiKey: "AIzaSyCOBew7tWa5X0Mdw6UWpE1CcwZtPoh6tz4",
             authDomain: "abhishek-classes-64457.firebaseapp.com",
@@ -431,15 +446,12 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // Study with Abhishek Official Channel ID (@studywithabhishek-z8d)
-        const YOUTUBE_CHANNEL_ID = "UCqJ6-1h9k1p_yD02w2u_v2w"; 
         let currentUser = null;
-        let userDbKey = '';
+        let userNameFolderKey = ''; // Firebase node key based on User's Name!
         let selectedBatch = '';
         let selectedBatchPrice = 0;
         let activeSeriesFilter = 'ALL';
 
-        // Curated & Auto-Categorized Channel Videos (Fallback + Live RSS Merge)
         const baseChannelVideos = [
             {
                 ytId: "QUjW8GWZWFU",
@@ -477,16 +489,19 @@
 
         const sampleMcqs = [
             {
+                id: "q1",
                 question: "Normal adult resting heart rate kitna hota hai?",
                 options: ["40 - 60 bpm", "60 - 100 bpm", "100 - 120 bpm", "120 - 140 bpm"],
                 answer: 1
             },
             {
+                id: "q2",
                 question: "Kidney ki structural aur functional unit kaunsi hoti hai?",
                 options: ["Neuron", "Nephron", "Alveoli", "Hepatocyte"],
                 answer: 1
             },
             {
+                id: "q3",
                 question: "Digestive system me maximum nutrient absorption kahan hota hai?",
                 options: ["Stomach", "Small Intestine", "Large Intestine", "Esophagus"],
                 answer: 1
@@ -527,126 +542,169 @@
             window.scrollTo(0, 0);
         }
 
+        function switchAccountModal() {
+            if (currentUser) {
+                document.getElementById('manualSyncEmail').value = currentUser.email || '';
+                document.getElementById('manualSyncName').value = currentUser.name || '';
+            }
+            document.getElementById('syncIdModal').classList.remove('hidden');
+        }
+
         // ==========================================================
-        // 1. STRONG ANDROID APP LOGIN DETECTION (NAME + EMAIL + UID)
+        // 1. AUTO-DETECT EMAIL & SAVE COMPLETE USER DATA UNDER USER'S NAME
         // ==========================================================
         function initAppUserDetection() {
             const urlParams = new URLSearchParams(window.location.search);
             let appEmail = urlParams.get('email') || urlParams.get('user') || urlParams.get('gmail');
             let appName = urlParams.get('name') || urlParams.get('username') || urlParams.get('fullName');
-            let appUid = urlParams.get('uid') || urlParams.get('userId');
 
-            // 1. Check Android JavascriptInterface (Multiple common method names supported)
             if (window.AndroidBridge) {
                 if (!appEmail && typeof window.AndroidBridge.getUserEmail === 'function') appEmail = window.AndroidBridge.getUserEmail();
-                if (!appEmail && typeof window.AndroidBridge.getEmail === 'function') appEmail = window.AndroidBridge.getEmail();
                 if (!appName && typeof window.AndroidBridge.getUserName === 'function') appName = window.AndroidBridge.getUserName();
-                if (!appName && typeof window.AndroidBridge.getName === 'function') appName = window.AndroidBridge.getName();
-                if (!appUid && typeof window.AndroidBridge.getUserId === 'function') appUid = window.AndroidBridge.getUserId();
-            }
-            if (window.Android && !appEmail) {
-                if (typeof window.Android.getUserEmail === 'function') appEmail = window.Android.getUserEmail();
-                if (typeof window.Android.getUserName === 'function') appName = window.Android.getUserName();
             }
 
-            // 2. Check if Firebase Auth session already exists in WebView
             auth.onAuthStateChanged(fbUser => {
                 if (fbUser && !appEmail) {
                     appEmail = fbUser.email;
                     appName = fbUser.displayName || appName;
-                    appUid = fbUser.uid;
                 }
 
                 if (appEmail) {
-                    connectUserToFirebase(appEmail, appName, appUid);
+                    loadOrCreateStudentByNameAndEmail(appEmail, appName);
                 } else {
-                    const cached = localStorage.getItem('abhishekAppUser');
+                    const cached = localStorage.getItem('abhishekStudentProfile');
                     if (cached) {
                         const parsed = JSON.parse(cached);
-                        connectUserToFirebase(parsed.email, parsed.name, parsed.uid);
+                        loadOrCreateStudentByNameAndEmail(parsed.email, parsed.name);
                     } else {
-                        // Show clean 1-time Email Sync modal if Android didn't pass params
+                        // First time: Ask Gmail & Name so entire data is fetched & saved under their Name in Firebase
                         document.getElementById('syncIdModal').classList.remove('hidden');
                     }
                 }
             });
         }
 
-        // Exposed global function so Android Studio can also call: webView.evaluateJavascript("setAppUser('email','name','uid')", null)
-        window.setAppUser = function(email, name, uid) {
-            if (email) {
-                document.getElementById('syncIdModal').classList.add('hidden');
-                connectUserToFirebase(email, name, uid);
-            }
-        };
+        // Live lookup when user types Gmail in the initial modal to auto-fill their existing Name from Firebase
+        let lookupTimer = null;
+        function autoFetchNamePreview(emailVal) {
+            clearTimeout(lookupTimer);
+            const cleanEmail = emailVal.trim().toLowerCase();
+            if (!cleanEmail.includes('@')) return;
 
-        async function syncUserFromFirebaseByEmail() {
+            lookupTimer = setTimeout(async () => {
+                const emailKey = cleanEmail.replace(/[^a-zA-Z0-9]/g, "_");
+                // 1. Check email_to_name_index first
+                const indexSnap = await database.ref('email_to_name_index/' + emailKey).once('value');
+                if (indexSnap.exists()) {
+                    const foundNameKey = indexSnap.val();
+                    const stuSnap = await database.ref('students_data/' + foundNameKey).once('value');
+                    if (stuSnap.exists() && stuSnap.val().name) {
+                        document.getElementById('manualSyncName').value = stuSnap.val().name;
+                        return;
+                    }
+                }
+                // 2. Check legacy custom_users or users nodes
+                const customSnap = await database.ref('custom_users/' + emailKey).once('value');
+                if (customSnap.exists() && customSnap.val().name) {
+                    document.getElementById('manualSyncName').value = customSnap.val().name;
+                }
+            }, 400);
+        }
+
+        function syncUserFromFirebaseByEmail() {
             const email = document.getElementById('manualSyncEmail').value.trim().toLowerCase();
+            const name = document.getElementById('manualSyncName').value.trim();
+
             if (!email || !email.includes('@')) {
                 alert('Kripya apni sahi Gmail ID dalein!');
                 return;
             }
+            if (!name) {
+                alert('Kripya apna Poora Naam dalein!');
+                return;
+            }
+
             document.getElementById('syncIdModal').classList.add('hidden');
-            connectUserToFirebase(email, '', '');
+            loadOrCreateStudentByNameAndEmail(email, name);
         }
 
-        async function connectUserToFirebase(email, passedName, passedUid) {
+        // Core Function: Saves & Syncs ALL User Data inside `students_data/{User_Name}` in Firebase
+        async function loadOrCreateStudentByNameAndEmail(email, passedName) {
             const cleanEmail = email.trim().toLowerCase();
             const emailKey = cleanEmail.replace(/[^a-zA-Z0-9]/g, "_");
-            userDbKey = passedUid || emailKey;
 
-            // Search existing user profile in 'users', 'custom_users', or 'app_users' so exact registered Name is fetched!
+            // Check if this Gmail already has a Name folder mapped in Firebase
             let resolvedName = passedName;
-            if (!resolvedName) {
-                try {
+            const indexSnap = await database.ref('email_to_name_index/' + emailKey).once('value');
+
+            if (indexSnap.exists() && !passedName) {
+                userNameFolderKey = indexSnap.val();
+            } else {
+                if (!resolvedName) {
                     const customSnap = await database.ref('custom_users/' + emailKey).once('value');
                     if (customSnap.exists() && customSnap.val().name) {
                         resolvedName = customSnap.val().name;
                     } else {
-                        const usersSnap = await database.ref('users').orderByChild('email').equalTo(cleanEmail).once('value');
-                        if (usersSnap.exists()) {
-                            const firstUser = Object.values(usersSnap.val())[0];
-                            if (firstUser && firstUser.name) resolvedName = firstUser.name;
-                        }
+                        resolvedName = cleanEmail.split('@')[0].replace(/[0-9._]/g, ' ').trim() || 'Student';
+                        resolvedName = resolvedName.charAt(0).toUpperCase() + resolvedName.slice(1);
                     }
-                } catch (e) { console.log("Name lookup fallback:", e); }
+                }
+                // Create clean Firebase key using User's Name (e.g. "Abhishek_Sharma")
+                userNameFolderKey = resolvedName.replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/\s+/g, "_");
+                if (!userNameFolderKey) userNameFolderKey = emailKey;
             }
 
-            if (!resolvedName) {
-                resolvedName = cleanEmail.split('@')[0].replace(/[0-9._]/g, ' ').trim() || 'Student';
-                resolvedName = resolvedName.charAt(0).toUpperCase() + resolvedName.slice(1);
-            }
+            // Link email -> Name folder in Firebase for instant lookup next time
+            await database.ref('email_to_name_index/' + emailKey).set(userNameFolderKey);
 
-            const userRef = database.ref('app_users/' + userDbKey);
-            userRef.on('value', snapshot => {
+            // Listen to ALL data inside `students_data/{User_Name}`
+            const studentRef = database.ref('students_data/' + userNameFolderKey);
+            studentRef.on('value', snapshot => {
                 let data = snapshot.val();
                 if (!data) {
+                    // Create fresh complete profile under User's Name in Firebase
                     data = {
-                        uid: userDbKey,
-                        name: resolvedName,
+                        name: resolvedName || userNameFolderKey.replace(/_/g, ' '),
                         email: cleanEmail,
                         batch: 'Free Tier',
                         score: 0,
-                        muted: false,
-                        joinedAt: new Date().toISOString()
+                        progress: '0%',
+                        paymentStatus: 'none',
+                        utrNumber: '',
+                        watchedVideosCount: 0,
+                        solvedMcqsCount: 0,
+                        lastActive: new Date().toISOString()
                     };
-                    userRef.set(data);
+                    studentRef.set(data);
                 } else {
-                    // Always keep name updated if Android passed a real name
-                    if (passedName && data.name !== passedName) {
-                        userRef.update({ name: passedName });
-                        data.name = passedName;
+                    // Ensure email & name stay synced
+                    if (cleanEmail && data.email !== cleanEmail) {
+                        studentRef.update({ email: cleanEmail });
+                        data.email = cleanEmail;
+                    }
+                    // Check if Admin set paymentStatus = "ok" inside this user's Name node!
+                    const payStatus = (data.paymentStatus || '').toString().trim().toLowerCase();
+                    if ((payStatus === 'ok' || payStatus === 'approved') && data.pendingBatch && data.batch !== data.pendingBatch) {
+                        const bonus = data.pendingBatch === 'Alpha+' ? 150 : 50;
+                        const updatedScore = (data.score || 0) + bonus;
+                        studentRef.update({
+                            batch: data.pendingBatch,
+                            score: updatedScore,
+                            paymentStatus: 'approved_active'
+                        });
+                        showToast(`🎉 Admin Approved! ${data.pendingBatch} Batch Equipped (+${bonus} Pts)!`);
+                        syncYouTubeChannelVideos(false);
                     }
                 }
+
                 currentUser = data;
-                localStorage.setItem('abhishekAppUser', JSON.stringify(data));
+                localStorage.setItem('abhishekStudentProfile', JSON.stringify(data));
                 updateUIWithUser(data);
-                listenToUserPaymentStatus(userDbKey);
             });
         }
 
         // ==========================================================
-        // 2. UTR PAYMENT & ADMIN "OK" APPROVAL LISTENER
+        // 2. UTR PAYMENT SUBMISSION (SAVES INSIDE USER'S NAME NODE + PAYMENT_REQUESTS)
         // ==========================================================
         function openBuyModal(batchName, price) {
             selectedBatch = batchName;
@@ -668,78 +726,42 @@
                 alert('Kripya valid 12-digit UTR / Transaction Reference Number dalein!');
                 return;
             }
-            if (!currentUser || !userDbKey) return;
+            if (!currentUser || !userNameFolderKey) return;
 
-            const requestData = {
-                uid: userDbKey,
+            const submittedTime = new Date().toISOString();
+
+            // 1. Save directly inside User's Name folder (`students_data/{User_Name}`)
+            database.ref('students_data/' + userNameFolderKey).update({
+                pendingBatch: selectedBatch,
+                utrNumber: utr,
+                paymentAmount: selectedBatchPrice,
+                paymentStatus: 'pending', // Admin changes this to 'ok' to approve!
+                paymentSubmittedAt: submittedTime
+            });
+
+            // 2. Also mirror in `payment_requests/{User_Name}` for quick admin check
+            database.ref('payment_requests/' + userNameFolderKey).set({
                 studentName: currentUser.name,
                 email: currentUser.email,
                 batch: selectedBatch,
                 amount: selectedBatchPrice,
                 utr: utr,
-                status: 'pending', // Admin Firebase me isko 'ok' karega tab approve hoga
-                submittedAt: new Date().toISOString()
-            };
+                status: 'pending',
+                submittedAt: submittedTime
+            });
 
-            // Save in payment_requests/{userDbKey} so Admin can easily find and type "ok"
-            database.ref('payment_requests/' + userDbKey).set(requestData);
-            closeBuyModal();
-            showToast('✅ UTR Submitted! Admin ke "ok" karte hi batch unlock ho jayega.');
-        }
-
-        function listenToUserPaymentStatus(uid) {
-            database.ref('payment_requests/' + uid).on('value', snapshot => {
-                const req = snapshot.val();
-                const pendingCard = document.getElementById('pendingUtrCard');
-                const bannerEl = document.getElementById('batchStatusBanner');
-
-                if (!req) {
-                    pendingCard.classList.add('hidden');
-                    return;
-                }
-
-                const statusLower = (req.status || '').toString().trim().toLowerCase();
-
-                // Admin ne Firebase me 'ok' ya 'approved' likh diya hai!
-                if (statusLower === 'ok' || statusLower === 'approved') {
-                    pendingCard.classList.add('hidden');
-                    if (currentUser && currentUser.batch !== req.batch) {
-                        const bonus = req.batch === 'Alpha+' ? 150 : 50;
-                        database.ref('app_users/' + uid).update({
-                            batch: req.batch,
-                            score: (currentUser.score || 0) + bonus,
-                            approvedUtr: req.utr
-                        });
-                        showToast(`🎉 Payment Approved! ${req.batch} Batch Equipped (+${bonus} Pts)!`);
-                        // Auto-sync all YouTube channel videos upon batch unlock
-                        syncYouTubeChannelVideos(false);
-                    }
-                } else if (statusLower === 'pending') {
-                    pendingCard.classList.remove('hidden');
-                    document.getElementById('pendingBatchName').textContent = req.batch;
-                    document.getElementById('pendingUtrNumber').textContent = req.utr;
-                    bannerEl.innerHTML = `
-                        <div onclick="switchTab('courses')" class="cursor-pointer bg-amber-500/15 border border-amber-500/40 rounded-2xl p-3.5 flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0">
-                                    <i class="fas fa-hourglass-half"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-bold text-amber-500">UTR Verification Pending (${req.batch})</h4>
-                                    <p class="text-[10px] text-gray-400">UTR: ${req.utr} • Waiting for Admin Approval</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else if (statusLower === 'rejected') {
-                    pendingCard.classList.add('hidden');
-                    bannerEl.innerHTML = `
-                        <div onclick="switchTab('courses')" class="cursor-pointer bg-red-500/15 border border-red-500/40 rounded-2xl p-3.5 text-xs text-red-400 font-bold">
-                            ❌ UTR (${req.utr}) Rejected by Admin. Dobara sahi UTR dalein.
-                        </div>
-                    `;
+            // Listen if Admin updates `payment_requests/{User_Name}/status` to "ok"
+            database.ref('payment_requests/' + userNameFolderKey + '/status').on('value', snap => {
+                const st = (snap.val() || '').toString().trim().toLowerCase();
+                if (st === 'ok' || st === 'approved') {
+                    database.ref('students_data/' + userNameFolderKey).update({
+                        paymentStatus: 'ok'
+                    });
                 }
             });
+
+            closeBuyModal();
+            showToast('✅ UTR Saved under your Name! Admin ke "ok" karte hi unlock ho jayega.');
         }
 
         function isBatchPurchased() {
@@ -749,7 +771,7 @@
         function updateUIWithUser(user) {
             const hasBatch = isBatchPurchased();
 
-            document.getElementById('headerUserBadge').textContent = `${user.name} (${user.email})`;
+            document.getElementById('headerUserBadge').textContent = `${user.name} • ${user.email}`;
             document.getElementById('headerPoints').textContent = user.score || 0;
             document.getElementById('homeWelcomeText').textContent = `Hi, ${user.name}!`;
             document.getElementById('homeSubEmail').textContent = user.email;
@@ -761,15 +783,20 @@
             document.getElementById('profileBatch').textContent = user.batch || 'Free Tier';
             document.getElementById('profileScoreVal').textContent = `${user.score || 0} Pts`;
 
-            const progress = Math.min(100, Math.round(((user.score || 0) / 500) * 100));
-            document.getElementById('profileProgressVal').textContent = `${progress}%`;
-            document.getElementById('progressBarText').textContent = `${progress}%`;
-            document.getElementById('progressBarFill').style.width = `${progress}%`;
+            const progressNum = Math.min(100, Math.round(((user.score || 0) / 500) * 100));
+            const progressStr = `${progressNum}%`;
+            document.getElementById('profileProgressVal').textContent = progressStr;
+            document.getElementById('progressBarText').textContent = progressStr;
+            document.getElementById('progressBarFill').style.width = progressStr;
 
             const bannerEl = document.getElementById('batchStatusBanner');
+            const pendingCard = document.getElementById('pendingUtrCard');
             const lockBadges = document.querySelectorAll('.lock-badge');
 
+            const payStatus = (user.paymentStatus || '').toLowerCase();
+
             if (hasBatch) {
+                pendingCard.classList.add('hidden');
                 lockBadges.forEach(b => b.classList.add('hidden'));
                 bannerEl.innerHTML = `
                     <div class="bg-green-500/10 border border-green-500/30 rounded-2xl p-3 flex items-center justify-between">
@@ -783,7 +810,26 @@
                         <button onclick="switchTab('videos')" class="px-3 py-1 bg-green-600 text-white text-[10px] font-bold rounded-xl">Study Now</button>
                     </div>
                 `;
+            } else if (payStatus === 'pending') {
+                lockBadges.forEach(b => b.classList.remove('hidden'));
+                pendingCard.classList.remove('hidden');
+                document.getElementById('pendingBatchName').textContent = user.pendingBatch || '-';
+                document.getElementById('pendingUtrNumber').textContent = user.utrNumber || '-';
+                bannerEl.innerHTML = `
+                    <div onclick="switchTab('courses')" class="cursor-pointer bg-amber-500/15 border border-amber-500/40 rounded-2xl p-3.5 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-amber-500">UTR Verification Pending (${user.pendingBatch})</h4>
+                                <p class="text-[10px] text-gray-400">UTR: ${user.utrNumber} • Waiting for Admin "ok"</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
             } else {
+                pendingCard.classList.add('hidden');
                 lockBadges.forEach(b => b.classList.remove('hidden'));
                 bannerEl.innerHTML = `
                     <div onclick="switchTab('courses')" class="cursor-pointer bg-red-500/10 border border-red-500/30 rounded-2xl p-3.5 flex items-center justify-between">
@@ -824,7 +870,6 @@
             if (spinIcon) spinIcon.classList.add('fa-spin');
 
             try {
-                // Fetch live RSS feed of @studywithabhishek-z8d via rss2json
                 const rssUrl = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?user=studywithabhishek-z8d`);
                 const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
                 const data = await res.json();
@@ -841,7 +886,6 @@
                     }).filter(v => v.ytId);
                 }
 
-                // Merge with base channel videos (avoiding duplicates)
                 const mergedMap = new Map();
                 [...baseChannelVideos, ...fetched].forEach(v => {
                     mergedMap.set(v.ytId, v);
@@ -857,7 +901,6 @@
             }
         }
 
-        // Smart Categorizer: Arranges videos into clean Series Categories & proper Part/Unit order
         function categorizeVideosIntoSeries(videos) {
             const seriesGroups = {
                 "B.Sc. Nursing 1st Semester": [],
@@ -879,7 +922,6 @@
                 }
             });
 
-            // Sort each series in proper logical sequence (Unit 1 -> Unit 2 -> Part 1 -> Oneshot -> Syllabus)
             Object.keys(seriesGroups).forEach(cat => {
                 seriesGroups[cat].sort((a, b) => {
                     const getOrderWeight = (title) => {
@@ -904,13 +946,19 @@
             renderSeriesAndVideos();
         }
 
-        function openYouTubeVideo(ytId) {
+        function openYouTubeVideo(ytId, title) {
             if (!isBatchPurchased()) {
                 showToast('🔒 Pehle Batch Buy karein aur UTR verify karwayein!');
                 switchTab('courses');
                 return;
             }
             addPoints(10, 'Watched Lecture');
+            if (userNameFolderKey) {
+                database.ref(`students_data/${userNameFolderKey}/watchedVideos/${ytId}`).set({
+                    title: title,
+                    watchedAt: new Date().toISOString()
+                });
+            }
             window.open(`https://www.youtube.com/watch?v=${ytId}`, '_blank');
         }
 
@@ -919,7 +967,6 @@
             const grouped = categorizeVideosIntoSeries(allChannelVideos);
             const categories = Object.keys(grouped).filter(c => grouped[c].length > 0);
 
-            // 1. Render Home Series Preview Cards (Clean Folder Style)
             const homePreviewEl = document.getElementById('homeSeriesPreview');
             if (homePreviewEl) {
                 homePreviewEl.innerHTML = categories.map((cat, idx) => {
@@ -947,7 +994,6 @@
                 }).join('');
             }
 
-            // 2. Render Horizontal Series Filter Pills
             const filterBar = document.getElementById('seriesFilterBar');
             if (filterBar) {
                 const pills = ['ALL', ...categories];
@@ -959,7 +1005,6 @@
                 `).join('');
             }
 
-            // 3. Render Series-Wise Video Playlists
             const container = document.getElementById('videoSeriesContainer');
             if (!container) return;
 
@@ -983,9 +1028,8 @@
                             ${vids.map((item, vIdx) => {
                                 const thumbUrl = `https://i.ytimg.com/vi/${item.ytId}/hqdefault.jpg`;
                                 return `
-                                    <div onclick="openYouTubeVideo('${item.ytId}')" 
+                                    <div onclick="openYouTubeVideo('${item.ytId}', '${item.title.replace(/'/g, "\\'")}')" 
                                          class="cursor-pointer group flex items-center space-x-3 p-2 rounded-2xl bg-gray-50 dark:bg-gray-900/70 border border-transparent hover:border-amber-500 transition">
-                                        <!-- Thumbnail with Episode Badge -->
                                         <div class="relative w-28 aspect-video rounded-xl overflow-hidden bg-black shrink-0">
                                             <img src="${thumbUrl}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition ${!unlocked ? 'opacity-50' : ''}">
                                             <span class="absolute top-1 left-1 bg-black/80 text-amber-400 text-[9px] font-bold px-1.5 py-0.5 rounded">
@@ -998,7 +1042,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Video Info -->
                                         <div class="flex-1 min-w-0">
                                             <h4 class="font-bold text-xs text-gray-900 dark:text-white line-clamp-2 leading-snug">${item.title}</h4>
                                             <div class="flex items-center space-x-2 mt-1.5">
@@ -1019,10 +1062,15 @@
         // 4. POINTS, NOTES, MCQ, LIVE CLASS, DOUBTS & LEADERBOARD
         // ==========================================================
         function addPoints(points, reason) {
-            if (!userDbKey || !currentUser) return;
+            if (!userNameFolderKey || !currentUser) return;
             const newScore = (currentUser.score || 0) + points;
-            database.ref('app_users/' + userDbKey).update({ score: newScore });
-            showToast(`+${points} Points Earned! (${reason})`);
+            const progressNum = Math.min(100, Math.round((newScore / 500) * 100));
+            database.ref('students_data/' + userNameFolderKey).update({
+                score: newScore,
+                progress: `${progressNum}%`,
+                lastActive: new Date().toISOString()
+            });
+            showToast(`+${points} Points Saved! (${reason})`);
         }
 
         function getLockedScreenHtml(featureName) {
@@ -1109,7 +1157,7 @@
                 <div class="aspect-video bg-black rounded-3xl flex items-center justify-center relative overflow-hidden shadow-lg border border-amber-500/40">
                     <div class="text-center text-white p-4 space-y-2">
                         <i class="fas fa-broadcast-tower text-4xl text-amber-500 animate-bounce"></i>
-                        <p class="font-bold text-sm">Live Class Room (${currentUser.batch})</p>
+                        <p class="font-bold text-sm">Live Class Room Ready (${currentUser.batch})</p>
                         <p class="text-xs text-gray-400">Daily Timing: 4:00 PM to 6:00 PM</p>
                         <button onclick="addPoints(15, 'Joined Live'); window.open('https://youtube.com/@studywithabhishek-z8d/live', '_blank')" 
                                 class="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl shadow">
@@ -1129,31 +1177,36 @@
 
         function submitDoubt() {
             const txt = document.getElementById('doubtInput').value.trim();
-            if (!txt) return;
-            database.ref('doubts').push({
+            if (!txt || !userNameFolderKey) return;
+
+            const doubtObj = {
                 studentName: currentUser.name,
                 email: currentUser.email,
                 batch: currentUser.batch,
                 doubt: txt,
                 time: new Date().toISOString()
-            });
+            };
+
+            // Save inside User's Name folder AND global doubts
+            database.ref(`students_data/${userNameFolderKey}/doubts`).push(doubtObj);
+            database.ref('doubts').push(doubtObj);
+
             addPoints(5, 'Asked Doubt');
             document.getElementById('doubtInput').value = '';
         }
 
         function triggerAppLogout() {
-            localStorage.removeItem('abhishekAppUser');
+            localStorage.removeItem('abhishekStudentProfile');
             if (window.AndroidBridge && typeof window.AndroidBridge.logout === 'function') {
                 window.AndroidBridge.logout();
-            } else if (window.Android && typeof window.Android.logout === 'function') {
-                window.Android.logout();
             } else {
                 location.reload();
             }
         }
 
         function loadCloudLeaderboardAndDoubts() {
-            database.ref('app_users').on('value', snapshot => {
+            // Live Leaderboard directly from `students_data` (stored by User's Name)
+            database.ref('students_data').on('value', snapshot => {
                 const usersObj = snapshot.val() || {};
                 const sorted = Object.values(usersObj).sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 15);
                 document.getElementById('leaderboardList').innerHTML = sorted.map((u, idx) => `
