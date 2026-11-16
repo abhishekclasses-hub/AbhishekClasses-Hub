@@ -12,10 +12,7 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            500: '#16a34a',
-                            600: '#15803d',
-                        }
+                        brand: { gold: '#d97706', goldHover: '#b45309' }
                     }
                 }
             }
@@ -23,117 +20,113 @@
     </script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Firebase Standard Web Compatibility SDKs -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <style>
         body { font-family: 'Poppins', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen p-4 md:p-8">
+<body class="bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-100 min-h-screen pb-20">
 
-    <div class="max-w-4xl mx-auto space-y-6">
-        <!-- HEADER -->
-        <div class="flex items-center justify-between bg-gray-800 p-5 rounded-3xl border border-gray-700 shadow-xl">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center text-xl font-bold">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg text-white">Study with Abhishek</h1>
-                    <p class="text-xs text-amber-400">Admin Control Panel</p>
-                </div>
+    <!-- ADMIN HEADER -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shadow">
+                <i class="fas fa-user-shield"></i>
             </div>
-            <a href="index.html" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-2xl text-xs font-semibold transition">
-                <i class="fas fa-arrow-left mr-1"></i> Go to App
-            </a>
+            <div>
+                <h1 class="font-bold text-sm text-gray-900 dark:text-white">Admin Control Center</h1>
+                <p class="text-[10px] text-amber-500 font-semibold">Study with Abhishek Management</p>
+            </div>
+        </div>
+        <button onclick="adminLogout()" class="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl text-xs font-bold transition">
+            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+        </button>
+    </header>
+
+    <!-- ADMIN CONTAINER -->
+    <main class="max-w-4xl mx-auto p-4 space-y-6">
+
+        <!-- 1. ANALYTICS STATS CARDS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-1">
+                <p class="text-[11px] text-gray-400">Total Students</p>
+                <h3 id="statTotalStudents" class="text-xl font-black text-amber-500">0</h3>
+            </div>
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-1">
+                <p class="text-[11px] text-gray-400">Paid Batches (Alpha/+</p>
+                <h3 id="statPaidStudents" class="text-xl font-black text-green-500">0</h3>
+            </div>
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-1">
+                <p class="text-[11px] text-gray-400">Pending UTR Requests</p>
+                <h3 id="statPendingUtr" class="text-xl font-black text-red-500">0</h3>
+            </div>
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm space-y-1">
+                <p class="text-[11px] text-gray-400">Total Doubts Asked</p>
+                <h3 id="statTotalDoubts" class="text-xl font-black text-blue-500">0</h3>
+            </div>
         </div>
 
-        <!-- GRID CONTROLS -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            <!-- 1. PUBLISH YOUTUBE LECTURE -->
-            <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
-                <div class="flex items-center space-x-2 text-amber-400">
-                    <i class="fas fa-video"></i>
-                    <h2 class="font-bold text-sm">Publish YouTube Lecture</h2>
-                </div>
-                <div class="space-y-3">
-                    <input type="text" id="adminVideoTitle" placeholder="Lecture Title (e.g. NORCET Day 6)" 
-                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <input type="text" id="adminVideoUrl" placeholder="YouTube URL or Video ID (e.g. dQw4w9WgXcQ)" 
-                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <input type="text" id="adminVideoSubject" placeholder="Subject (e.g. Anatomy)" 
-                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <button onclick="publishVideo()" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl text-xs shadow transition">
-                        Publish Video
-                    </button>
-                </div>
-            </div>
-
-            <!-- 2. UPLOAD PDF NOTES -->
-            <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
-                <div class="flex items-center space-x-2 text-emerald-400">
-                    <i class="fas fa-file-pdf"></i>
-                    <h2 class="font-bold text-sm">Upload Handwritten PDF Notes</h2>
-                </div>
-                <div class="space-y-3">
-                    <input type="text" id="adminNoteTitle" placeholder="Notes Title (e.g. Pharmacology Chart)" 
-                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <input type="text" id="adminNoteLink" placeholder="PDF / Google Drive Link" 
-                           class="w-full p-3 bg-gray-900 border border-gray-700 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <button onclick="publishNote()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl text-xs shadow transition">
-                        Save PDF Notes
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- 3. STUDENTS MANAGEMENT & MUTE CONTROL -->
-        <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
+        <!-- 2. UTR PAYMENT APPROVAL MANAGER -->
+        <section class="bg-white dark:bg-gray-900 rounded-3xl p-5 border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2 text-blue-400">
-                    <i class="fas fa-users"></i>
-                    <h2 class="font-bold text-sm">Registered Students & Chat Control</h2>
+                <div>
+                    <h2 class="font-bold text-sm text-gray-900 dark:text-white flex items-center">
+                        <i class="fas fa-receipt text-amber-500 mr-2"></i> UTR Payment Verification Queue
+                    </h2>
+                    <p class="text-[11px] text-gray-400">Students jo batch buy karke UTR submit kiye hain</p>
                 </div>
-                <span id="studentCount" class="text-xs bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full font-bold">0 Students</span>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs">
-                    <thead>
-                        <tr class="border-b border-gray-700 text-gray-400">
-                            <th class="py-3 px-2">Name</th>
-                            <th class="py-3 px-2">Email</th>
-                            <th class="py-3 px-2">Batch</th>
-                            <th class="py-3 px-2">Score</th>
-                            <th class="py-3 px-2 text-center">Chat Control</th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentsTableBody">
-                        <tr><td colspan="5" class="text-center py-4 text-gray-500">Loading students data...</td></tr>
-                    </tbody>
-                </table>
+            <div id="utrQueueList" class="space-y-3">
+                <p class="text-xs text-gray-400 text-center py-4">No pending UTR requests.</p>
             </div>
-        </div>
+        </section>
 
-        <!-- 4. STUDENT DOUBTS INBOX -->
-        <div class="bg-gray-800 p-6 rounded-3xl border border-gray-700 shadow-xl space-y-4">
-            <div class="flex items-center space-x-2 text-purple-400">
-                <i class="fas fa-comments"></i>
-                <h2 class="font-bold text-sm">Student Doubts Inbox</h2>
+        <!-- 3. PUBLISH PDF NOTES (GITHUB LINK SYSTEM) -->
+        <section class="bg-white dark:bg-gray-900 rounded-3xl p-5 border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+            <div>
+                <h2 class="font-bold text-sm text-gray-900 dark:text-white flex items-center">
+                    <i class="fas fa-file-pdf text-emerald-500 mr-2"></i> Publish Handwritten Notes / PDF
+                </h2>
+                <p class="text-[11px] text-gray-400">File ko pehle GitHub par upload karein, phir uska direct raw link yahan paste karein.</p>
             </div>
-            <div id="doubtsInbox" class="space-y-3">
-                <p class="text-xs text-gray-500 text-center py-4">No doubts submitted yet.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input type="text" id="noteTitleInput" placeholder="Note Title (e.g. Anatomy Unit-1 PDF)" 
+                       class="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl text-xs">
+                <input type="text" id="noteSubjectInput" placeholder="Subject / Sem (e.g. 1st Semester)" 
+                       class="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl text-xs">
+                <input type="url" id="noteLinkInput" placeholder="Paste GitHub Raw PDF Link (https://...)" 
+                       class="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl text-xs">
             </div>
-        </div>
+            <button onclick="publishPdfNote()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow transition">
+                Publish Notes for Students (+5 Pts Reward)
+            </button>
+        </section>
 
-    </div>
+        
 
-    <!-- SCRIPT -->
+        <!-- 5. STUDENT LIST & MANAGEMENT -->
+        <section class="bg-white dark:bg-gray-900 rounded-3xl p-5 border border-gray-200 dark:border-gray-800 shadow-sm space-y-4">
+            <h2 class="font-bold text-sm text-gray-900 dark:text-white flex items-center">
+                <i class="fas fa-users text-blue-500 mr-2"></i> All Registered Students & Analytics
+            </h2>
+            <div id="studentsListTable" class="space-y-2">
+                <p class="text-xs text-gray-400 text-center py-4">Loading student records...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- TOAST -->
+    <div id="toastMsg" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white border border-amber-500 px-4 py-2 rounded-full text-xs font-bold shadow-xl"></div>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCOBew7tWa5X0Mdw6UWpE1CcwZtPoh6tz4",
@@ -150,119 +143,170 @@
         }
         const database = firebase.database();
 
-        // Publish Video
-        function publishVideo() {
-            const title = document.getElementById('adminVideoTitle').value;
-            const ytUrl = document.getElementById('adminVideoUrl').value;
-            const subject = document.getElementById('adminVideoSubject').value;
-            if (!title || !ytUrl) {
-                alert('Please enter title and YouTube URL!');
-                return;
-            }
-
-            let ytId = 'dQw4w9WgXcQ';
-            if (ytUrl.includes('v=')) {
-                ytId = ytUrl.split('v=')[1].substring(0, 11);
-            } else if (ytUrl.length === 11) {
-                ytId = ytUrl;
-            }
-
-            database.ref('lectures').push({
-                id: Date.now(),
-                title: title,
-                ytId: ytId,
-                subject: subject || 'General'
-            });
-
-            alert('YouTube Lecture Published Successfully!');
-            document.getElementById('adminVideoTitle').value = '';
-            document.getElementById('adminVideoUrl').value = '';
-            document.getElementById('adminVideoSubject').value = '';
+        function showToast(msg) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
-        // Publish Note
-        function publishNote() {
-            const title = document.getElementById('adminNoteTitle').value;
-            const link = document.getElementById('adminNoteLink').value;
-            if (!title) {
-                alert('Please enter notes title!');
+        function adminLogout() {
+            window.location.href = "abhishek.html";
+        }
+
+        // ==========================================
+        // 1. LOAD ANALYTICS & UTR QUEUE
+        // ==========================================
+        function loadAdminData() {
+            // Students Stats
+            database.ref('students_data').on('value', snapshot => {
+                const studentsObj = snapshot.val() || {};
+                const studentsArr = Object.values(studentsObj);
+                const total = studentsArr.length;
+                const paid = studentsArr.filter(s => s.batch === 'Alpha' || s.batch === 'Alpha+').length;
+
+                document.getElementById('statTotalStudents').textContent = total;
+                document.getElementById('statPaidStudents').textContent = paid;
+
+                // Render Students Table
+                const tableEl = document.getElementById('studentsListTable');
+                tableEl.innerHTML = studentsArr.map(s => `
+                    <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-2xl flex items-center justify-between text-xs">
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white">${s.name}</h4>
+                            <p class="text-[10px] text-gray-400">${s.email} • Batch: <span class="text-amber-500 font-bold">${s.batch || 'Free'}</span></p>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-black text-green-500">${s.score || 0} Pts</span>
+                            <p class="text-[9px] text-gray-400">Progress: ${s.progress || '0%'}</p>
+                        </div>
+                    </div>
+                `).join('');
+            });
+
+            // Pending UTR Queue
+            database.ref('payment_requests').on('value', snapshot => {
+                const reqsObj = snapshot.val() || {};
+                const reqsArr = Object.entries(reqsObj);
+                const pendingArr = reqsArr.filter(([k, r]) => (r.status || '').toLowerCase() === 'pending');
+
+                document.getElementById('statPendingUtr').textContent = pendingArr.length;
+
+                const queueEl = document.getElementById('utrQueueList');
+                if (pendingArr.length === 0) {
+                    queueEl.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">No pending UTR requests.</p>';
+                    return;
+                }
+
+                queueEl.innerHTML = pendingArr.map(([key, r]) => `
+                    <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl border border-amber-500/30 flex items-center justify-between text-xs space-x-2">
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white">${r.studentName} (${r.batch} - ₹${r.amount})</h4>
+                            <p class="text-[10px] text-gray-400">Email: ${r.email}</p>
+                            <p class="text-[11px] font-mono font-bold text-amber-500 mt-0.5">UTR: ${r.utr}</p>
+                        </div>
+                        <div class="flex space-x-2 shrink-0">
+                            <button onclick="approveUtr('${key}', '${r.batch}')" class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow">
+                                Approve (ok)
+                            </button>
+                            <button onclick="rejectUtr('${key}')" class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow">
+                                Reject
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+
+            // Total Doubts Count
+            database.ref('doubts').on('value', snapshot => {
+                const data = snapshot.val();
+                const count = data ? Object.keys(data).length : 0;
+                document.getElementById('statTotalDoubts').textContent = count;
+            });
+        }
+
+        // ==========================================
+        // 2. APPROVE OR REJECT UTR
+        // ==========================================
+        function approveUtr(folderKey, batchName) {
+            // Update both payment_request status and student data folder status to 'ok'
+            database.ref('payment_requests/' + folderKey).update({ status: 'ok' });
+            database.ref('students_data/' + folderKey).update({
+                batch: batchName,
+                paymentStatus: 'ok'
+            });
+            showToast('✅ Payment Approved! Student batch unlocked successfully.');
+        }
+
+        function rejectUtr(folderKey) {
+            database.ref('payment_requests/' + folderKey).update({ status: 'rejected' });
+            database.ref('students_data/' + folderKey).update({ paymentStatus: 'rejected' });
+            showToast('❌ Payment Rejected.');
+        }
+
+        // ==========================================
+        // 3. PUBLISH PDF NOTES
+        // ==========================================
+        function publishPdfNote() {
+            const title = document.getElementById('noteTitleInput').value.trim();
+            const subject = document.getElementById('noteSubjectInput').value.trim() || 'Handwritten Notes';
+            const link = document.getElementById('noteLinkInput').value.trim();
+
+            if (!title || !link) {
+                alert('Kripya Note Title aur GitHub PDF Link dono bharein!');
                 return;
             }
 
             database.ref('notes').push({
-                id: Date.now(),
                 title: title,
-                link: link || '#'
+                subject: subject,
+                link: link,
+                createdAt: new Date().toISOString()
             });
 
-            alert('PDF Notes Saved Successfully!');
-            document.getElementById('adminNoteTitle').value = '';
-            document.getElementById('adminNoteLink').value = '';
+            document.getElementById('noteTitleInput').value = '';
+            document.getElementById('noteSubjectInput').value = '';
+            document.getElementById('noteLinkInput').value = '';
+            showToast('📚 PDF Notes Published Successfully!');
         }
 
-        // Load Students & Doubts
+        // ==========================================
+        // 4. PUBLISH YOUTUBE LECTURE
+        // ==========================================
+        function extractYouTubeId(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function publishYtLecture() {
+            const title = document.getElementById('ytTitleInput').value.trim();
+            const subject = document.getElementById('ytSubjectInput').value.trim() || 'B.Sc. Nursing Series';
+            const link = document.getElementById('ytLinkInput').value.trim();
+            const ytId = extractYouTubeId(link);
+
+            if (!title || !ytId) {
+                alert('Kripya sahi Lecture Title aur valid YouTube Link dalein!');
+                return;
+            }
+
+            database.ref('lectures').push({
+                title: title,
+                subject: subject,
+                ytId: ytId,
+                createdAt: new Date().toISOString()
+            });
+
+            document.getElementById('ytTitleInput').value = '';
+            document.getElementById('ytSubjectInput').value = '';
+            document.getElementById('ytLinkInput').value = '';
+            showToast('🎥 YouTube Lecture Published Successfully!');
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
-            // Load Students
-            database.ref('users').on('value', snapshot => {
-                const data = snapshot.val();
-                if (!data) {
-                    document.getElementById('studentsTableBody').innerHTML = `<tr><td colspan="5" class="text-center py-4 text-gray-500">No registered students found.</td></tr>`;
-                    return;
-                }
-
-                const students = Object.entries(data);
-                document.getElementById('studentCount').textContent = `${students.length} Students`;
-
-                let html = '';
-                students.forEach(([uid, user]) => {
-                    html += `
-                        <tr class="border-b border-gray-700/50 hover:bg-gray-700/20">
-                            <td class="py-3 px-2 font-bold">${user.name || 'N/A'}</td>
-                            <td class="py-3 px-2 text-gray-400">${user.email || 'N/A'}</td>
-                            <td class="py-3 px-2 text-amber-400">${user.batch || 'Free Tier'}</td>
-                            <td class="py-3 px-2 text-green-400">${user.score || 0} Pts</td>
-                            <td class="py-3 px-2 text-center">
-                                <button onclick="toggleMute('${uid}', ${!user.muted})" class="px-3 py-1 rounded-xl text-[10px] font-bold ${user.muted ? 'bg-red-500 text-white' : 'bg-gray-700 text-gray-300'}">
-                                    ${user.muted ? 'Muted' : 'Active'}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-                document.getElementById('studentsTableBody').innerHTML = html;
-            });
-
-            // Load Doubts
-            database.ref('doubts').on('value', snapshot => {
-                const data = snapshot.val();
-                if (!data) {
-                    document.getElementById('doubtsInbox').innerHTML = `<p class="text-xs text-gray-500 text-center py-4">No doubts submitted yet.</p>`;
-                    return;
-                }
-
-                let html = '';
-                Object.entries(data).forEach(([key, item]) => {
-                    html += `
-                        <div class="bg-gray-900 p-3.5 rounded-2xl border border-gray-700 space-y-1">
-                            <div class="flex justify-between items-center text-[10px] text-gray-400">
-                                <span class="font-bold text-amber-400">${item.studentName} (${item.email})</span>
-                                <button onclick="deleteDoubt('${key}')" class="text-red-400 hover:underline">Clear / Delete</button>
-                            </div>
-                            <p class="text-xs text-white">${item.doubt}</p>
-                        </div>
-                    `;
-                });
-                document.getElementById('doubtsInbox').innerHTML = html;
-            });
+            loadAdminData();
         });
-
-        function toggleMute(uid, muteStatus) {
-            database.ref('users/' + uid).update({ muted: muteStatus });
-        }
-
-        function deleteDoubt(key) {
-            database.ref('doubts/' + key).remove();
-        }
     </script>
 </body>
 </html>
